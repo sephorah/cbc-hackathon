@@ -1,4 +1,8 @@
-# ProductV1
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+# OnCallHelper
 
 ## What we're building
 A privacy-first Flutter iOS app for on-call engineers that correlates 
@@ -123,7 +127,7 @@ ON AI SENTIMENT:
 - 37% of SREs want technical training to use AI effectively
 - 46% of individual contributors approach AI with caution vs 30% of 
   managers — shows engineers are skeptical, meaning trust is earned, 
-  not assumed. ProductV1 must be transparent.
+  not assumed. OnCallHelper must be transparent.
 
 ON LEARNING:
 - Most SREs don't have enough time for technical learning
@@ -131,7 +135,7 @@ ON LEARNING:
 
 PITCH ANGLE FROM REPORT:
 "Incidents don't end when they're over" (Sergey Katsev, VP Engineering)
-— this is the human cost ProductV1 addresses.
+— this is the human cost OnCallHelper addresses.
 
 ## Limits and drawbacks to address before submission
 - Crisis handoff missing: if risk is critical, notification MUST point 
@@ -188,7 +192,7 @@ PITCH ANGLE FROM REPORT:
   compliant by design
 - PHIPA: Ontario health privacy law — engineer controls all health 
   data, no third-party access
-- HIPAA: US only, not applicable
+- HIPAA: US only, not currently applicable — local architecture is HIPAA-ready for future US scaling
 
 ## Research backing for pitch
 - 70% of IT professionals have poor sleep quality, statistically 
@@ -213,3 +217,28 @@ PITCH ANGLE FROM REPORT:
 - Shallow wrappers around Claude API with no added value
 - Harmful applications or ethical violations
 - Copy-paste solutions where we didn't maintain engineering ownership
+
+# Commands
+
+```bash
+# Lint / static analysis (run after every change)
+flutter analyze
+
+# Run all tests
+flutter test
+
+# Run a single test file
+flutter test test/path/to/file_test.dart
+
+# Build iOS (no code signing — for CI / simulator)
+flutter build ios --no-codesign
+
+# Run on connected iOS device or simulator
+flutter run
+```
+
+> Building for a real device requires Xcode on macOS. Use Codemagic (issue #4) for cloud Mac builds from this Linux machine.
+
+# Instructions
+
+Before implementing each issue in `issues_backlog.md`, save the plan as plans/issue-X-plan.md then wait for my approval before executing. Since no one on the team has Flutter experience, make sure to explain key concepts so we can own and explain the project to judges. Explain the generated files.
