@@ -1,4 +1,4 @@
-# OnCallHelper
+# ProductV1
 
 ## What we're building
 A privacy-first Flutter iOS app for on-call engineers that correlates 
@@ -123,7 +123,7 @@ ON AI SENTIMENT:
 - 37% of SREs want technical training to use AI effectively
 - 46% of individual contributors approach AI with caution vs 30% of 
   managers — shows engineers are skeptical, meaning trust is earned, 
-  not assumed. OnCallHelper must be transparent.
+  not assumed. ProductV1 must be transparent.
 
 ON LEARNING:
 - Most SREs don't have enough time for technical learning
@@ -131,7 +131,7 @@ ON LEARNING:
 
 PITCH ANGLE FROM REPORT:
 "Incidents don't end when they're over" (Sergey Katsev, VP Engineering)
-— this is the human cost OnCallHelper addresses.
+— this is the human cost ProductV1 addresses.
 
 ## Limits and drawbacks to address before submission
 - Crisis handoff missing: if risk is critical, notification MUST point 
