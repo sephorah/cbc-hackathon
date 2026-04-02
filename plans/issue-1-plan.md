@@ -48,7 +48,7 @@ The full iOS native project. Generally not touched directly except:
 - `ios/Runner.xcworkspace` — what Codemagic opens to build the app.
 
 ### `test/widget_test.dart` — default test
-A placeholder test for the default counter app. Replaced when real tests are written (issue #11 for `BurnoutCorrelator`).
+A placeholder test for the default counter app. Replaced when real tests are written (issue #11 for `StressCorrelator`).
 
 ### `analysis_options.yaml` — linter config
 Enables `flutter_lints` — the standard Flutter style rules. `flutter analyze` uses this. No need to touch it.

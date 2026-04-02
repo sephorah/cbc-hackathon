@@ -218,6 +218,53 @@ PITCH ANGLE FROM REPORT:
 - Harmful applications or ethical violations
 - Copy-paste solutions where we didn't maintain engineering ownership
 
+# Code Architecture
+
+## Planned lib/ structure
+
+```
+lib/
+├── main.dart              # App entry point — currently a placeholder counter app, will be replaced by issues #25/#26
+├── models/
+│   ├── health_signal.dart # Sleep duration, quality from HealthKit (issue #6)
+│   ├── work_signal.dart   # Incident count, severity, after-hours pages (issue #7)
+│   └── risk_level.dart    # Enum: LOW / MODERATE / HIGH / CRITICAL (issue #8)
+├── services/
+│   ├── health_service.dart        # HealthKit via `health` package (issue #12)
+│   ├── rootly_service.dart        # Rootly MCP HTTP calls (issue #13)
+│   ├── claude_service.dart        # Claude API — recommendation text only (issue #14)
+│   ├── notification_service.dart  # flutter_local_notifications (issue #15)
+│   └── mock/                      # Drop-in mocks for demo fallback (issues #18–21)
+│       ├── mock_health_service.dart
+│       └── mock_rootly_service.dart
+├── core/
+│   └── stress_correlator.dart     # Deterministic scoring logic (issues #9–11)
+└── screens/
+    ├── onboarding_screen.dart     # One-time privacy explainer (issue #25)
+    └── home_screen.dart           # Main dashboard + trigger button (issue #26)
+```
+
+## Data flow
+
+```
+HealthService ──┐
+                ├─→ StressCorrelator ──→ ClaudeService ──→ NotificationService
+RootlyService ──┘   (deterministic)       (text only)       (push + Apple Watch)
+```
+
+`StressCorrelator` computes `RiskLevel` from raw signals using explicit weighted thresholds (no AI). `ClaudeService` receives the signals **and** the pre-computed `RiskLevel` — it generates natural language only, it does not make the decision.
+
+## Mock fallback pattern
+
+Each real service (`HealthService`, `RootlyService`) has a mock counterpart in `services/mock/` that returns realistic hardcoded data. The app switches to mocks if live APIs fail or during demos without a connected device. This is required to pass judge scrutiny if any API is down during the 5-minute demo.
+
+## Key constraints for implementation
+
+- All data stays on device — no HTTP calls except to Rootly MCP and Claude API
+- `StressCorrelator` thresholds must be constants, named, and commented — judges will ask "who decided these and why"
+- `ClaudeService` prompt must be SRE-specific and include the pre-computed risk level — never let Claude decide the risk
+- `NotificationService` critical-risk notifications must include a crisis resource link (non-negotiable ethical requirement)
+
 # Commands
 
 ```bash
@@ -241,4 +288,15 @@ flutter run
 
 # Instructions
 
-Before implementing each issue in `issues_backlog.md`, save the plan as plans/issue-X-plan.md then wait for my approval before executing. Since no one on the team has Flutter experience, make sure to explain key concepts so we can own and explain the project to judges. Explain the generated files.
+## Issue workflow
+
+1. Read the issue in `issues_backlog.md`
+2. Write the implementation plan to `plans/issue-X-plan.md`
+3. **Wait for approval** before writing any code
+4. Execute the plan, then run `flutter analyze` to verify no regressions
+
+## Flutter explanations
+
+Since no one on the team has Flutter experience, explain key concepts when implementing so we can own and explain the project to judges. Explain any generated or non-obvious files. Prioritize explanations for `StressCorrelator` (the deterministic layer judges will interrogate), the Claude prompt structure, and the HealthKit permission flow.
+
+Whenever the actual architecture is updated, update the docs/architecture.md file accordingly.

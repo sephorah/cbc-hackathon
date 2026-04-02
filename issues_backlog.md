@@ -32,9 +32,9 @@
 
 | # | Title | Priority | Size |
 |---|-------|----------|------|
-| 9 | Implement `BurnoutCorrelator.compute(WorkSignal, HealthSignal) → RiskLevel` with explicit weighted thresholds | P0 | M |
+| 9 | Implement `StressCorrelator.compute(WorkSignal, HealthSignal) → RiskLevel` with explicit weighted thresholds | P0 | M |
 | 10 | Define thresholds in `core/constants/thresholds.dart` (single source of truth) | P0 | S |
-| 11 | Write unit tests for `BurnoutCorrelator` covering all risk levels and edge cases | P1 | M |
+| 11 | Write unit tests for `StressCorrelator` covering all risk levels and edge cases | P1 | M |
 
 ---
 
