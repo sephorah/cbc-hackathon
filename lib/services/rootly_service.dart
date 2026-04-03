@@ -118,8 +118,9 @@ class RootlyService {
     int afterHours = 0;
 
     for (final item in data) {
-      final attrs = (item as Map<String, dynamic>)['attributes']
-          as Map<String, dynamic>?;
+      final itemMap = item as Map<String, dynamic>?;
+      if (itemMap == null) continue;
+      final attrs = itemMap['attributes'] as Map<String, dynamic>?;
       if (attrs == null) continue;
       final severity = attrs['severity'] as String? ?? '';
 
@@ -207,7 +208,7 @@ class RootlyService {
           'GET /v1/incidents returned ${response.statusCode}');
     }
     final body = jsonDecode(response.body) as Map<String, dynamic>;
-    return parseIncidents(body['data'] as List<dynamic>);
+    return parseIncidents((body['data'] as List<dynamic>?) ?? []);
   }
 
   /// Returns true if [userId] has an active on-call shift right now across
@@ -232,7 +233,7 @@ class RootlyService {
     final body = jsonDecode(response.body) as Map<String, dynamic>;
     final data = body['data'] as List<dynamic>? ?? [];
     return data
-        .map((s) => (s as Map<String, dynamic>)['id'] as String? ?? '')
+        .map((s) => ((s as Map<String, dynamic>?)?['id']) as String? ?? '')
         .where((id) => id.isNotEmpty)
         .toList();
   }
