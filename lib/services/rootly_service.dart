@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-
 import 'package:productv1/models/work_signal.dart';
 
 /// Counts of incidents over a time window, returned by [RootlyService.fetchIncidents].
