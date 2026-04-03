@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-# OnCallHelper
+# ProductV1
 
 ## What we're building
 A privacy-first Flutter iOS app for on-call engineers that correlates 
@@ -127,7 +127,7 @@ ON AI SENTIMENT:
 - 37% of SREs want technical training to use AI effectively
 - 46% of individual contributors approach AI with caution vs 30% of 
   managers — shows engineers are skeptical, meaning trust is earned, 
-  not assumed. OnCallHelper must be transparent.
+  not assumed. ProductV1 must be transparent.
 
 ON LEARNING:
 - Most SREs don't have enough time for technical learning
@@ -135,7 +135,7 @@ ON LEARNING:
 
 PITCH ANGLE FROM REPORT:
 "Incidents don't end when they're over" (Sergey Katsev, VP Engineering)
-— this is the human cost OnCallHelper addresses.
+— this is the human cost ProductV1 addresses.
 
 ## Limits and drawbacks to address before submission
 - Crisis handoff missing: if risk is critical, notification MUST point 
@@ -220,26 +220,44 @@ PITCH ANGLE FROM REPORT:
 
 # Code Architecture
 
+## Implementation status
+
+| Area | Status | Files |
+|------|--------|-------|
+| Models | ✅ Done | `health_signal.dart`, `work_signal.dart`, `risk_level.dart` |
+| Deterministic layer | ✅ Done | `stress_correlator.dart`, `constants/thresholds.dart` |
+| Services | 🔶 In progress | ✅ `health_service.dart` · ❌ `rootly_service.dart`, `claude_service.dart`, `notification_service.dart` |
+| Mock fallbacks | ✅ Done | `mock/mock_health_service.dart`, `mock/mock_rootly_service.dart`, `mock/mock_claude_service.dart` |
+| Service locator | ✅ Done | `core/service_locator.dart` — `useMocks` flag wires mock vs live services |
+| Screens | ❌ Not started | `onboarding_screen.dart`, `home_screen.dart` |
+
+**Next issue:** Issue #13 (RootlyService.fetchIncidents()). Write a plan to `plans/issue-13-plan.md` before coding (see Issue workflow below).
+
 ## Planned lib/ structure
 
 ```
 lib/
-├── main.dart              # App entry point — currently a placeholder counter app, will be replaced by issues #25/#26
-├── models/
-│   ├── health_signal.dart # Sleep duration, quality from HealthKit (issue #6)
-│   ├── work_signal.dart   # Incident count, severity, after-hours pages (issue #7)
-│   └── risk_level.dart    # Enum: LOW / MODERATE / HIGH / CRITICAL (issue #8)
-├── services/
-│   ├── health_service.dart        # HealthKit via `health` package (issue #12)
-│   ├── rootly_service.dart        # Rootly MCP HTTP calls (issue #13)
-│   ├── claude_service.dart        # Claude API — recommendation text only (issue #14)
-│   ├── notification_service.dart  # flutter_local_notifications (issue #15)
-│   └── mock/                      # Drop-in mocks for demo fallback (issues #18–21)
-│       ├── mock_health_service.dart
-│       └── mock_rootly_service.dart
-├── core/
-│   └── stress_correlator.dart     # Deterministic scoring logic (issues #9–11)
-└── screens/
+├── main.dart              # PLACEHOLDER — will be replaced by issues #25/#26
+├── models/                # ✅ ALL DONE
+│   ├── health_signal.dart # ✅ Total sleep duration + fragmentation count (nullable) from HealthKit
+│   ├── work_signal.dart   # ✅ Incident count, severity, after-hours pages
+│   └── risk_level.dart    # ✅ Enum: low / moderate / high / critical
+├── services/              # Partial — health_service done, rest pending
+│   ├── health_service.dart        # ✅ HealthKit sleep data via `health` package (issue #12)
+│   ├── rootly_service.dart        # Rootly MCP HTTP calls (issues #13, #14)
+│   ├── claude_service.dart        # Claude API — recommendation text only (issue #15)
+│   ├── notification_service.dart  # flutter_local_notifications (issue #16)
+│   └── mock/                      # ✅ Drop-in mocks for demo fallback (issues #18–21)
+│       ├── mock_health_service.dart   # 5h30m sleep + fragmentation=3
+│       ├── mock_rootly_service.dart   # 1 critical + 2 high + 2 after-hours + on-call
+│       └── mock_claude_service.dart   # Hardcoded recommendation per RiskLevel
+├── core/                  # ✅ DONE
+│   ├── stress_correlator.dart     # Deterministic scoring logic (issue #9)
+│   ├── service_locator.dart       # ✅ useMocks flag + static service getters (issue #21)
+│   └── constants/
+│       ├── thresholds.dart        # Named threshold constants — single source of truth (issue #10)
+│       └── crisis_resources.dart  # ✅ Crisis line strings shared by mock and real ClaudeService
+└── screens/               # ❌ NOT YET CREATED
     ├── onboarding_screen.dart     # One-time privacy explainer (issue #25)
     └── home_screen.dart           # Main dashboard + trigger button (issue #26)
 ```
@@ -258,9 +276,18 @@ RootlyService ──┘   (deterministic)       (text only)       (push + Apple 
 
 Each real service (`HealthService`, `RootlyService`) has a mock counterpart in `services/mock/` that returns realistic hardcoded data. The app switches to mocks if live APIs fail or during demos without a connected device. This is required to pass judge scrutiny if any API is down during the 5-minute demo.
 
+## Service implementation pattern
+
+All services follow the same static-class pattern as `HealthService`:
+- Static-only class (private constructor)
+- Single `static Future<T> fetch()` entry point
+- Throw typed exceptions on failure; `ServiceLocator` falls back to mock on any exception
+
+When implementing `ClaudeService`, its signature will be `getRecommendation(RiskLevel, WorkSignal, HealthSignal) → Future<String>`. The current `ServiceLocator.getRecommendation(RiskLevel)` stub will need to be updated to pass `WorkSignal` and `HealthSignal` at that point.
+
 ## Key constraints for implementation
 
-- All data stays on device — no HTTP calls except to Rootly MCP and Claude API
+- All data stays on device — no HTTP calls except to Rootly REST API and Claude API
 - `StressCorrelator` thresholds must be constants, named, and commented — judges will ask "who decided these and why"
 - `ClaudeService` prompt must be SRE-specific and include the pre-computed risk level — never let Claude decide the risk
 - `NotificationService` critical-risk notifications must include a crisis resource link (non-negotiable ethical requirement)
@@ -280,11 +307,43 @@ flutter test test/path/to/file_test.dart
 # Build iOS (no code signing — for CI / simulator)
 flutter build ios --no-codesign
 
-# Run on connected iOS device or simulator
-flutter run
+# Run with mock data (default — simulator, Linux dev, demo fallback)
+flutter run --dart-define=USE_MOCKS=true
+
+# Run with live services (physical iPhone + Apple Watch, real APIs)
+flutter run --dart-define=USE_MOCKS=false
 ```
 
 > Building for a real device requires Xcode on macOS. Use Codemagic (issue #4) for cloud Mac builds from this Linux machine.
+
+## Environment variables
+
+`flutter_dotenv` loads `.env` at startup. Access in code via `dotenv.env['KEY_NAME']`. Initialize once in `main()`:
+
+```dart
+await dotenv.load(fileName: '.env');
+```
+
+The `.env` file is gitignored. `.env.example` serves as the template. Two keys are required:
+
+| Key | Used by |
+|-----|---------|
+| `CLAUDE_API_KEY` | `ClaudeService` (issue #15) |
+| `ROOTLY_API_TOKEN` | `RootlyService` (issues #13, #14) |
+
+## Rootly REST API
+
+Base URL: `https://api.rootly.com`  
+Auth header: `Authorization: Bearer ${dotenv.env['ROOTLY_API_TOKEN']}`  
+Content-Type: `application/vnd.api+json`
+
+Key endpoints for issue #13/#14:
+- `GET /v1/users/me` → extract `data.id` (current user ID)
+- `GET /v1/incidents?filter[user_id]=<id>&filter[created_at][gte]=<iso8601>` → incident list; each item has `attributes.severity` (`critical` / `high` / etc.) and `attributes.started_at`
+- `GET /v1/schedules` → list schedule IDs
+- `GET /v1/schedules/{id}/shifts?from=<iso>&to=<iso>` → filter by `data[].relationships.user.data.id == me.id`
+
+After-hours definition: `started_at` time-of-day outside `09:00–18:00` local time (hardcoded proxy; V2 would use the schedule endpoint).
 
 # Instructions
 
@@ -292,11 +351,20 @@ flutter run
 
 1. Read the issue in `issues_backlog.md`
 2. Write the implementation plan to `plans/issue-X-plan.md`
-3. **Wait for approval** before writing any code
-4. Execute the plan, then run `flutter analyze` to verify no regressions
+3. **Always pull the latest documentation.**
+4. **Wait for approval** before writing any code
+5. Execute the plan, then run `flutter analyze` to verify no regressions
+6. **Make a code review**
+7. Always pull the latest documentation.
+8. Mark the issue as done in issues_backlog.md
+9. Run tests
+10. Git add, commit and push
 
 ## Flutter explanations
 
 Since no one on the team has Flutter experience, explain key concepts when implementing so we can own and explain the project to judges. Explain any generated or non-obvious files. Prioritize explanations for `StressCorrelator` (the deterministic layer judges will interrogate), the Claude prompt structure, and the HealthKit permission flow.
 
 Whenever the actual architecture is updated, update the docs/architecture.md file accordingly.
+
+Always pull the latest documentation.
+Don't assume things related to documentation unless there is actual proof.

@@ -95,16 +95,19 @@ Rules:
     buf.writeln('RISK LEVEL (pre-computed, do not change): ${riskLevel.name.toUpperCase()}');
     buf.writeln();
     buf.writeln('WORK SIGNALS (past 7 days):');
-    buf.writeln('  Incidents: ${work.incidentCount}');
-    buf.writeln('  After-hours pages: ${work.afterHoursPagesCount}');
-    buf.writeln('  High-severity (P0/P1) incidents: ${work.highSeverityCount}');
-    buf.writeln('  Currently on call: ${work.isCurrentlyOnCall ? "Yes" : "No"}');
+    buf.writeln('  Total incidents: ${work.totalIncidents}');
+    buf.writeln('  Critical incidents: ${work.criticalCount}');
+    buf.writeln('  High-severity incidents: ${work.highCount}');
+    buf.writeln('  After-hours pages: ${work.afterHoursCount}');
+    buf.writeln('  Currently on call: ${work.isOnCall ? "Yes" : "No"}');
     buf.writeln();
     buf.writeln('HEALTH SIGNALS:');
     buf.writeln(
-      '  Average sleep: ${health.avgSleepHours.toStringAsFixed(1)} h/night '
-      '(${health.windowDays}-day average)',
+      '  Sleep last night: ${(health.totalSleepDuration.inMinutes / 60.0).toStringAsFixed(1)}h',
     );
+    if (health.fragmentationCount != null) {
+      buf.writeln('  Awakenings: ${health.fragmentationCount}');
+    }
     buf.writeln();
 
     if (riskLevel == RiskLevel.critical) {

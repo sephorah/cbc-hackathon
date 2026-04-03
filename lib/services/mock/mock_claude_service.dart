@@ -1,53 +1,33 @@
-import '../../models/health_signal.dart';
-import '../../models/risk_level.dart';
-import '../../models/work_signal.dart';
+import 'package:productv1/core/constants/crisis_resources.dart';
+import 'package:productv1/models/risk_level.dart';
 
-/// Issue #20: Mock Claude service for demo safety.
+/// Drop-in stand-in for the real ClaudeService (issue #15).
 ///
-/// Returns hardcoded, realistic recommendation strings per risk level.
-/// Drop-in replacement for ClaudeService — identical method signature.
-/// Used when ClaudeService throws (API down, key missing, no network).
+/// Returns hardcoded SRE-specific recommendation strings per risk level.
+/// The critical string MUST include a human resource link — non-negotiable
+/// ethical requirement (issue #24, #29). Crisis text sourced from CrisisResources.
 class MockClaudeService {
-  Future<String> getRecommendation(
-    RiskLevel riskLevel,
-    WorkSignal work,
-    HealthSignal health,
-  ) async {
-    // Simulate realistic network latency so the demo feels authentic
-    await Future.delayed(const Duration(milliseconds: 800));
+  const MockClaudeService._();
 
-    switch (riskLevel) {
+  static Future<String> getRecommendation(RiskLevel risk) async {
+    switch (risk) {
       case RiskLevel.low:
-        return 'Your workload is manageable and sleep looks solid at '
-            '${health.avgSleepHours.toStringAsFixed(1)}h average. '
-            'Take 10 minutes after your shift to disconnect from Slack — '
-            'it helps your brain shift out of on-call mode.';
-
+        return 'Your signals look balanced this week — sleep is solid and the incident '
+            'queue is quiet. Good time to recharge before the next rotation.';
       case RiskLevel.moderate:
-        return 'With ${work.incidentCount} incidents this week and '
-            '${health.avgSleepHours.toStringAsFixed(1)}h average sleep, '
-            "you're carrying a moderate load. "
-            'Before your next on-call shift, block 30 minutes to write down '
-            'the three biggest open loops — getting them out of your head '
-            'reduces cortisol and improves sleep quality.';
-
+        return "You're carrying some sleep debt alongside a moderate incident load. "
+            'Block 30 minutes today to decompress — a short walk or a few minutes away '
+            'from screens can reset your stress response before it compounds.';
       case RiskLevel.high:
-        return '${work.afterHoursPagesCount} after-hours pages plus '
-            '${health.avgSleepHours.toStringAsFixed(1)}h sleep is a '
-            'combination that builds invisible burnout fast. '
-            'Flag this to your team lead today — not as a complaint, as data: '
-            '${work.incidentCount} incidents in 7 days is a workload problem, '
-            'not a you problem. '
-            'Take your full lunch break away from screens.';
-
+        return "This has been a demanding week: active on-call, multiple incidents, and "
+            "disrupted sleep. Your body is running a deficit. Protect tonight's sleep as "
+            'a priority — even one full night significantly restores cognitive function. '
+            'Consider flagging your load to your team lead if the pace continues.';
       case RiskLevel.critical:
-        return 'You have had ${work.highSeverityCount} high-severity incidents, '
-            '${work.afterHoursPagesCount} after-hours pages, and only '
-            '${health.avgSleepHours.toStringAsFixed(1)}h average sleep — '
-            'this combination is serious and you should not be carrying it alone. '
-            'Tell someone on your team right now that you need coverage today. '
-            'If you are struggling, please reach out: '
-            'Crisis Services Canada 1-833-456-4566.';
+        return 'Your signals indicate a high-stress week with significant sleep disruption. '
+            'This level of sustained load carries real burnout risk. Please reach out to a '
+            'trusted colleague, your manager, or a professional resource. '
+            '${CrisisResources.criticalHandoff}';
     }
   }
 }

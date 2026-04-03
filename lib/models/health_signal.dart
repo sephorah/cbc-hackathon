@@ -1,16 +1,14 @@
-/// Sleep data fetched from Apple Watch via HealthKit.
 class HealthSignal {
-  /// Average sleep duration per night over [windowDays] days.
-  final double avgSleepHours;
+  final DateTime date;
+  final Duration totalSleepDuration;
 
-  /// Number of days sampled (default 7).
-  final int windowDays;
-
-  final DateTime fetchedAt;
+  /// Number of AWAKE segments detected within the sleep window.
+  /// Null means the Apple Watch was not worn — data unavailable, not zero awakenings.
+  final int? fragmentationCount;
 
   const HealthSignal({
-    required this.avgSleepHours,
-    required this.windowDays,
-    required this.fetchedAt,
+    required this.date,
+    required this.totalSleepDuration,
+    this.fragmentationCount,
   });
 }

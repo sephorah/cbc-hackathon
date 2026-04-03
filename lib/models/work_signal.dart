@@ -1,24 +1,29 @@
-/// Incident and on-call data fetched from Rootly MCP.
 class WorkSignal {
-  /// Total incidents in the past 7 days.
-  final int incidentCount;
+  final DateTime windowStart;
+  final DateTime windowEnd;
+  final int totalIncidents;
 
-  /// Pages received outside 9am–6pm in the past 7 days.
-  final int afterHoursPagesCount;
+  /// Incidents with Rootly severity == "critical"
+  final int criticalCount;
 
-  /// P0/P1 (high-severity) incidents in the past 7 days.
-  final int highSeverityCount;
+  /// Incidents with Rootly severity == "high"
+  final int highCount;
 
-  /// Whether the engineer is currently on the active on-call rotation.
-  final bool isCurrentlyOnCall;
+  /// Incidents whose started_at fell outside 09:00–18:00 local time.
+  /// Hardcoded proxy — accurate definition would derive the window from the
+  /// engineer's schedule endpoint, but that's V2.
+  final int afterHoursCount;
 
-  final DateTime fetchedAt;
+  /// Whether the engineer has an active on-call shift right now
+  final bool isOnCall;
 
   const WorkSignal({
-    required this.incidentCount,
-    required this.afterHoursPagesCount,
-    required this.highSeverityCount,
-    required this.isCurrentlyOnCall,
-    required this.fetchedAt,
+    required this.windowStart,
+    required this.windowEnd,
+    required this.totalIncidents,
+    required this.criticalCount,
+    required this.highCount,
+    required this.afterHoursCount,
+    required this.isOnCall,
   });
 }

@@ -52,11 +52,11 @@ class _HomeScreenState extends State<HomeScreen> {
       WorkSignal work;
       HealthSignal health;
       try {
-        work = await RootlyService().fetchWorkSignal();
-        health = await HealthService().fetchSleepDuration();
+        work = await RootlyService.fetchWorkSignal();
+        health = await HealthService.fetch();
       } catch (_) {
-        work = await MockRootlyService().fetchWorkSignal();
-        health = await MockHealthService().fetchSleepDuration();
+        work = await MockRootlyService.fetch();
+        health = await MockHealthService.fetch();
         _usedMockFallback = true;
       }
 
@@ -69,8 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
         recommendation =
             await ClaudeService().getRecommendation(risk, work, health);
       } catch (_) {
-        recommendation =
-            await MockClaudeService().getRecommendation(risk, work, health);
+        recommendation = await MockClaudeService.getRecommendation(risk);
         _usedMockFallback = true;
       }
 
@@ -320,14 +319,14 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               _chip(
                 Icons.bedtime_outlined,
-                '${health.avgSleepHours.toStringAsFixed(1)}h sleep',
+                '${(health.totalSleepDuration.inMinutes / 60.0).toStringAsFixed(1)}h sleep',
               ),
-              _chip(Icons.bolt_outlined, '${work.incidentCount} incidents'),
+              _chip(Icons.bolt_outlined, '${work.totalIncidents} incidents'),
               _chip(
                 Icons.nights_stay_outlined,
-                '${work.afterHoursPagesCount} after-hours',
+                '${work.afterHoursCount} after-hours',
               ),
-              if (work.isCurrentlyOnCall)
+              if (work.isOnCall)
                 _chip(Icons.phone_in_talk_outlined, 'On call'),
             ],
           ),

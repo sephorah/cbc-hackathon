@@ -1,11 +1,6 @@
-/// Risk level computed by StressCorrelator from work + health signals.
-/// Claude receives this as an input — it never decides the level itself.
-enum RiskLevel {
-  low,
-  moderate,
-  high,
-  critical,
-}
+/// Output of StressCorrelator. Ordered low → critical so values can be
+/// compared with >= and <= (e.g. riskLevel >= RiskLevel.high).
+enum RiskLevel { low, moderate, high, critical }
 
 extension RiskLevelLabel on RiskLevel {
   String get label {

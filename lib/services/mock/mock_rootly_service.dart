@@ -1,20 +1,26 @@
-import '../../models/work_signal.dart';
+import 'package:productv1/models/work_signal.dart';
 
-/// Issue #19: Hardcoded work signal for demo fallback.
+/// Drop-in stand-in for the real RootlyService (issues #13, #14).
 ///
-/// Represents a high-stress SRE scenario to make the demo compelling:
-///   7 incidents, 4 after-hours pages, 2 high-severity, currently on call.
-/// Combined with MockHealthService (5.5h sleep), StressCorrelator
-/// produces a HIGH or CRITICAL risk level.
+/// Returns a hardcoded signal representing a stressed on-call week:
+/// - 1 critical incident (5 pts), 2 high (4 pts), 2 after-hours (4 pts), on-call (2 pts)
+/// - rawWork = 15 → (15/12) clamped to 1.0 → normWork = 10
+///
+/// Combined with MockHealthService (normSleep=5.0):
+///   combined = 5.0 × 0.65 + 10 × 0.35 = 6.75 → RiskLevel.high
 class MockRootlyService {
-  Future<WorkSignal> fetchWorkSignal() async {
-    await Future.delayed(const Duration(milliseconds: 600));
+  const MockRootlyService._();
+
+  static Future<WorkSignal> fetch() async {
+    final now = DateTime.now();
     return WorkSignal(
-      incidentCount: 7,
-      afterHoursPagesCount: 4,
-      highSeverityCount: 2,
-      isCurrentlyOnCall: true,
-      fetchedAt: DateTime.now(),
+      windowStart: now.subtract(const Duration(days: 7)),
+      windowEnd: now,
+      totalIncidents: 3,
+      criticalCount: 1,
+      highCount: 2,
+      afterHoursCount: 2,
+      isOnCall: true,
     );
   }
 }

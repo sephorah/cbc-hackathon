@@ -1,10 +1,10 @@
-# OnCallHelper
+# ProductV1
 
 **Tagline:** "Your personal AI wellbeing companion that integrates work and health data — all private, all local."
 
 ## Product Vision
 
-OnCallHelper is a privacy-first AI assistant for on-call engineers that integrates work data from Rootly MCP (incidents, schedules, on-call shifts) with personal health metrics from Apple Watch. Its purpose is to prevent burnout, promote positive mental health, and provide actionable resources — all while keeping sensitive data entirely under the user's control.
+ProductV1 is a privacy-first AI assistant for on-call engineers that integrates work data from Rootly MCP (incidents, schedules, on-call shifts) with personal health metrics from Apple Watch. Its purpose is to prevent burnout, promote positive mental health, and provide actionable resources — all while keeping sensitive data entirely under the user's control.
 
 ## Target Users
 
@@ -22,12 +22,16 @@ OnCallHelper is a privacy-first AI assistant for on-call engineers that integrat
 ### Deterministic Correlation Layer
 Work and health signals are combined using explicit weighted thresholds — not a black box. The engineer can understand exactly why they received a particular risk level.
 
-Example logic:
-```
-sleep < 6h AND incidents >= 3 AND after_hours_pages >= 2  →  HIGH risk
-sleep < 7h AND incidents >= 5                             →  MEDIUM risk
-otherwise                                                 →  LOW risk
-```
+Each signal is normalized to a 0–10 score. Sleep/recovery has 65% weight and work burden has 35% weight (Rootly On-Call Health methodology). The combined score maps to one of four risk levels:
+
+| Combined score | Risk level |
+|----------------|------------|
+| ≥ 7.5 | **critical** |
+| ≥ 5.5 | **high** |
+| ≥ 3.0 | **moderate** |
+| < 3.0 | **low** |
+
+Example: last night < 5h sleep (severe deficit) + 1 critical incident + on-call → combined ≈ 6.75 → **high**.
 
 ### AI-Powered Recommendations
 Claude API receives the risk level and raw signal values and returns a short, SRE-specific recommendation. The AI generates the output text — it does not make the decision.
@@ -42,7 +46,7 @@ Example output:
 
 ### Optional Trusted Support (V2)
 - Users can choose to connect with trusted colleagues or mentors for guidance.
-- OnCallHelper facilitates the connection without exposing sensitive health or work data.
+- ProductV1 facilitates the connection without exposing sensitive health or work data.
 
 ### User Interface
 - Push notification on iPhone with the AI recommendation — mirrors to Apple Watch automatically (no watchOS app required).
@@ -50,7 +54,7 @@ Example output:
 
 ## Business Value & Company Integration
 
-- Companies can sponsor or pay for OnCallHelper as part of their employee wellbeing programs.
+- Companies can sponsor or pay for ProductV1 as part of their employee wellbeing programs.
 - **Company perspective:** Demonstrates investment in mental health without ever accessing sensitive personal data.
 - Employees retain full privacy but can opt into company-provided resources — wellness apps, coaching, or therapy vouchers.
 - Positions the company as responsible and employee-focused, improving morale and retention.
@@ -58,26 +62,36 @@ Example output:
 ## Architecture Overview (MVP)
 
 ```
-[Apple Watch / HealthKit]     [Rootly MCP Server]
-         |                            |
-         └──────────┬─────────────────┘
+HealthService          RootlyService
+(HealthKit / Apple Watch)  (Rootly REST API)
+        |                       |
+        └───────────┬───────────┘
+                    ↓
+           StressCorrelator
+     (deterministic weighted scoring)
+      sleep 65% + work 35% → RiskLevel
                     |
-          Deterministic Correlation
-          (explicit weighted thresholds)
-                    |
-              Risk Level + Signals
-                    |
-               Claude API
-          (recommendation text only)
-                    |
-         Local Push Notification
-                    |
-             Apple Watch (mirrored)
+              RiskLevel + raw signals
+                    ↓
+              ClaudeService
+         (Claude API — text only,
+          does not make the decision)
+                    ↓
+         NotificationService
+      (flutter_local_notifications)
+                    ↓
+         iPhone push notification
+                    ↓
+         Apple Watch (mirrored automatically)
 ```
 
-- All computation happens locally on device — no backend, no server.
-- No database in MVP; local storage for trend tracking planned for V2.
-- Mock data fallback available for all three integrations (demo reliability).
+**Key architectural decisions:**
+
+- All computation is on-device — outbound HTTP only to Rootly REST API and Claude API.
+- `StressCorrelator` uses named threshold constants from `core/constants/thresholds.dart`; weights sourced from Rootly's open-source On-Call Health repo.
+- Claude receives the pre-computed `RiskLevel` and raw signals; it generates natural language only.
+- `ServiceLocator` wires live vs mock services via `--dart-define=USE_MOCKS=true/false`. Mock fallbacks exist for all three integrations (demo reliability).
+- No database in MVP; V2 adds local SQLite for trend tracking.
 
 ## Technical Considerations
 

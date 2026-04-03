@@ -6,12 +6,12 @@
 lib/
 ├── main.dart              # App entry point — currently a placeholder counter app, will be replaced by issues #25/#26
 ├── models/
-│   ├── health_signal.dart # Sleep duration, quality from HealthKit (issue #6)
+│   ├── health_signal.dart # Total sleep duration + fragmentation count (nullable) from HealthKit (issue #6)
 │   ├── work_signal.dart   # Incident count, severity, after-hours pages (issue #7)
 │   └── risk_level.dart    # Enum: LOW / MODERATE / HIGH / CRITICAL (issue #8)
 ├── services/
 │   ├── health_service.dart        # HealthKit via `health` package (issue #12)
-│   ├── rootly_service.dart        # Rootly MCP HTTP calls (issue #13)
+│   ├── rootly_service.dart        # ✅ Rootly REST API — fetchIncidents() (issue #13)
 │   ├── claude_service.dart        # Claude API — recommendation text only (issue #14)
 │   ├── notification_service.dart  # flutter_local_notifications (issue #15)
 │   └── mock/                      # Drop-in mocks for demo fallback (issues #18–21)
