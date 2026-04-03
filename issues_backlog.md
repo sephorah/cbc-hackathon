@@ -44,7 +44,7 @@
 | # | Title | Priority | Size | Done |
 |---|-------|----------|------|------|
 | 12 | Implement `HealthService.fetchSleepDuration(days: 7)` via `health` package | P0 | M | ✅ |
-| 13 | Implement `RootlyService.fetchIncidents()` — (1) `GET /v1/users/me` → user ID, (2) `GET /v1/incidents?filter[user_id]=<id>&filter[created_at][gte]=<30d>` → incident count + severity, (3) compute after-hours pages client-side from `created_at` timestamps outside 9am–6pm | P0 | M | |
+| 13 | Implement `RootlyService.fetchIncidents()` — (1) `GET /v1/users/me` → user ID, (2) `GET /v1/incidents?filter[user_id]=<id>&filter[created_at][gte]=<30d>` → incident count + severity, (3) compute after-hours pages client-side from `created_at` timestamps outside 9am–6pm | P0 | M | ✅ |
 | 14 | Implement `RootlyService.fetchOnCallSchedule()` — (1) `GET /v1/schedules` → schedule IDs, (2) `GET /v1/schedules/{id}/shifts?from=<30d>&to=<now>` for each → filter shifts where `user.id == me.id` → on-call shift count | P0 | S | |
 | 15 | Implement `ClaudeService.getRecommendation(RiskLevel, WorkSignal, HealthSignal) → String` | P0 | M | |
 | 16 | Implement `NotificationService.send(title, body)` via `flutter_local_notifications` | P0 | M | |
