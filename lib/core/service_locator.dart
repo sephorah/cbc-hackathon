@@ -1,9 +1,10 @@
-import 'package:oncallhelper/models/health_signal.dart';
-import 'package:oncallhelper/models/risk_level.dart';
-import 'package:oncallhelper/models/work_signal.dart';
-import 'package:oncallhelper/services/mock/mock_claude_service.dart';
-import 'package:oncallhelper/services/mock/mock_health_service.dart';
-import 'package:oncallhelper/services/mock/mock_rootly_service.dart';
+import 'package:productv1/models/health_signal.dart';
+import 'package:productv1/models/risk_level.dart';
+import 'package:productv1/models/work_signal.dart';
+import 'package:productv1/services/health_service.dart';
+import 'package:productv1/services/mock/mock_claude_service.dart';
+import 'package:productv1/services/mock/mock_health_service.dart';
+import 'package:productv1/services/mock/mock_rootly_service.dart';
 
 /// Controls whether the app uses hardcoded mock data or live services.
 ///
@@ -20,7 +21,7 @@ class ServiceLocator {
   const ServiceLocator._();
 
   static Future<HealthSignal> fetchHealth() =>
-      useMocks ? MockHealthService.fetch() : _liveHealthNotImplemented();
+      useMocks ? MockHealthService.fetch() : HealthService.fetch();
 
   static Future<WorkSignal> fetchWork() =>
       useMocks ? MockRootlyService.fetch() : _liveWorkNotImplemented();
@@ -29,10 +30,7 @@ class ServiceLocator {
       ? MockClaudeService.getRecommendation(risk)
       : _liveClaudeNotImplemented();
 
-  // --- Stubs for live services (replaced in issues #12–15) ---
-
-  static Future<HealthSignal> _liveHealthNotImplemented() =>
-      Future<HealthSignal>.error(UnimplementedError('HealthService not yet implemented — build with --dart-define=USE_MOCKS=true'));
+  // --- Stubs for live services (replaced in issues #13–15) ---
 
   static Future<WorkSignal> _liveWorkNotImplemented() =>
       Future<WorkSignal>.error(UnimplementedError('RootlyService not yet implemented — build with --dart-define=USE_MOCKS=true'));

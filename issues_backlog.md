@@ -1,4 +1,4 @@
-# Recover — Issues Backlog
+# ProductV1 — Issues Backlog
 
 ## Legend
 - **Priority:** P0 (blocker) · P1 (MVP required) · P2 (nice to have before demo) · P3 (V2)
@@ -42,7 +42,7 @@
 
 | # | Title | Priority | Size | Done |
 |---|-------|----------|------|------|
-| 12 | Implement `HealthService.fetchSleepDuration(days: 7)` via `health` package | P0 | M | |
+| 12 | Implement `HealthService.fetchSleepDuration(days: 7)` via `health` package | P0 | M | ✅ |
 | 13 | Implement `RootlyService.fetchIncidents()` via Rootly MCP | P0 | L | |
 | 14 | Implement `RootlyService.fetchOnCallSchedule()` via Rootly MCP | P0 | M | |
 | 15 | Implement `ClaudeService.getRecommendation(RiskLevel, WorkSignal, HealthSignal) → String` | P0 | M | |
