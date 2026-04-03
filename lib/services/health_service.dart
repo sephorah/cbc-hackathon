@@ -37,7 +37,10 @@ class HealthService {
     HealthDataType.SLEEP_AWAKE,
   ];
 
-  static Future<HealthSignal> fetch({int days = 7}) async {
+  // Default is 1 day (last night) so totalSleepDuration maps directly to the
+  // per-night thresholds in StressCorrelator (7h adequate, 6h mild, 5h severe).
+  // A 7-day sum would always exceed those thresholds and neutralise the sleep signal.
+  static Future<HealthSignal> fetch({int days = 1}) async {
     await _health.configure();
 
     final authorized = await _health.requestAuthorization(_allSleepTypes);
@@ -73,7 +76,9 @@ class HealthService {
 
     for (final point in points) {
       if (_sleepStageTypes.contains(point.type)) {
-        totalSleep += point.dateTo.difference(point.dateFrom);
+        final duration = point.dateTo.difference(point.dateFrom);
+        if (duration <= Duration.zero) continue; // guard against malformed HealthKit data
+        totalSleep += duration;
         hasSleepData = true;
       } else if (point.type == HealthDataType.SLEEP_AWAKE) {
         awakeCount++;
