@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:oncallhelper/core/stress_correlator.dart';
-import 'package:oncallhelper/models/health_signal.dart';
-import 'package:oncallhelper/models/risk_level.dart';
-import 'package:oncallhelper/models/work_signal.dart';
+import 'package:productv1/core/stress_correlator.dart';
+import 'package:productv1/models/health_signal.dart';
+import 'package:productv1/models/risk_level.dart';
+import 'package:productv1/models/work_signal.dart';
 
 void main() {
   WorkSignal work({

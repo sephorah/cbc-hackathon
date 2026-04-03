@@ -1,4 +1,4 @@
-import 'package:oncallhelper/models/health_signal.dart';
+import 'package:productv1/models/health_signal.dart';
 
 /// Drop-in stand-in for the real HealthService (issue #12).
 ///

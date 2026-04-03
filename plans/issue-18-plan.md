@@ -38,7 +38,7 @@ No abstract interface yet (that's fine — the environment flag in issue #21 wil
 together). For now, `MockHealthService` is a plain class with a single static method.
 
 ```dart
-import 'package:oncallhelper/models/health_signal.dart';
+import 'package:productv1/models/health_signal.dart';
 
 class MockHealthService {
   const MockHealthService._();

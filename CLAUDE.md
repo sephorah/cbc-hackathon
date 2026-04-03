@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-# Recover
+# ProductV1
 
 ## What we're building
 A privacy-first Flutter iOS app for on-call engineers that correlates 
@@ -127,7 +127,7 @@ ON AI SENTIMENT:
 - 37% of SREs want technical training to use AI effectively
 - 46% of individual contributors approach AI with caution vs 30% of 
   managers — shows engineers are skeptical, meaning trust is earned, 
-  not assumed. Recover must be transparent.
+  not assumed. ProductV1 must be transparent.
 
 ON LEARNING:
 - Most SREs don't have enough time for technical learning
@@ -135,7 +135,7 @@ ON LEARNING:
 
 PITCH ANGLE FROM REPORT:
 "Incidents don't end when they're over" (Sergey Katsev, VP Engineering)
-— this is the human cost Recover addresses.
+— this is the human cost ProductV1 addresses.
 
 ## Limits and drawbacks to address before submission
 - Crisis handoff missing: if risk is critical, notification MUST point 
@@ -231,7 +231,7 @@ PITCH ANGLE FROM REPORT:
 | Service locator | ✅ Done | `core/service_locator.dart` — `useMocks` flag wires mock vs live services |
 | Screens | ❌ Not started | `onboarding_screen.dart`, `home_screen.dart` |
 
-**Next issue:** Issue #15 (ClaudeService). Detailed plan at `plans/issue-15-plan.md`.
+**Next issue:** Issue #15 (ClaudeService). Write a plan to `plans/issue-15-plan.md` before coding (see Issue workflow below).
 
 ## Planned lib/ structure
 

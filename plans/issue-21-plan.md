@@ -38,12 +38,12 @@ lib/core/service_locator.dart
 ```
 
 ```dart
-import 'package:oncallhelper/models/health_signal.dart';
-import 'package:oncallhelper/models/risk_level.dart';
-import 'package:oncallhelper/models/work_signal.dart';
-import 'package:oncallhelper/services/mock/mock_claude_service.dart';
-import 'package:oncallhelper/services/mock/mock_health_service.dart';
-import 'package:oncallhelper/services/mock/mock_rootly_service.dart';
+import 'package:productv1/models/health_signal.dart';
+import 'package:productv1/models/risk_level.dart';
+import 'package:productv1/models/work_signal.dart';
+import 'package:productv1/services/mock/mock_claude_service.dart';
+import 'package:productv1/services/mock/mock_health_service.dart';
+import 'package:productv1/services/mock/mock_rootly_service.dart';
 
 /// Set to true to run the app with hardcoded mock data.
 /// Set to false once live services (issues #12–15) are implemented.

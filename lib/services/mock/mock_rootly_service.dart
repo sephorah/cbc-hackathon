@@ -1,4 +1,4 @@
-import 'package:oncallhelper/models/work_signal.dart';
+import 'package:productv1/models/work_signal.dart';
 
 /// Drop-in stand-in for the real RootlyService (issues #13, #14).
 ///

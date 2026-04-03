@@ -1,5 +1,5 @@
-import 'package:oncallhelper/core/constants/crisis_resources.dart';
-import 'package:oncallhelper/models/risk_level.dart';
+import 'package:productv1/core/constants/crisis_resources.dart';
+import 'package:productv1/models/risk_level.dart';
 
 /// Drop-in stand-in for the real ClaudeService (issue #15).
 ///

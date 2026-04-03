@@ -14,10 +14,10 @@ Apple requires every iOS app that uses HealthKit to declare **why** it needs acc
 
 ```xml
 <key>NSHealthShareUsageDescription</key>
-<string>Recover reads your sleep duration from Apple Health to detect sleep deficits that may compound on-call stress. This data never leaves your device.</string>
+<string>ProductV1 reads your sleep duration from Apple Health to detect sleep deficits that may compound on-call stress. This data never leaves your device.</string>
 
 <key>NSHealthUpdateUsageDescription</key>
-<string>Recover does not write health data. This permission is required by HealthKit but will not be used.</string>
+<string>ProductV1 does not write health data. This permission is required by HealthKit but will not be used.</string>
 ```
 
 **Why two keys?**
