@@ -276,9 +276,18 @@ RootlyService ──┘   (deterministic)       (text only)       (push + Apple 
 
 Each real service (`HealthService`, `RootlyService`) has a mock counterpart in `services/mock/` that returns realistic hardcoded data. The app switches to mocks if live APIs fail or during demos without a connected device. This is required to pass judge scrutiny if any API is down during the 5-minute demo.
 
+## Service implementation pattern
+
+All services follow the same static-class pattern as `HealthService`:
+- Static-only class (private constructor)
+- Single `static Future<T> fetch()` entry point
+- Throw typed exceptions on failure; `ServiceLocator` falls back to mock on any exception
+
+When implementing `ClaudeService`, its signature will be `getRecommendation(RiskLevel, WorkSignal, HealthSignal) → Future<String>`. The current `ServiceLocator.getRecommendation(RiskLevel)` stub will need to be updated to pass `WorkSignal` and `HealthSignal` at that point.
+
 ## Key constraints for implementation
 
-- All data stays on device — no HTTP calls except to Rootly MCP and Claude API
+- All data stays on device — no HTTP calls except to Rootly REST API and Claude API
 - `StressCorrelator` thresholds must be constants, named, and commented — judges will ask "who decided these and why"
 - `ClaudeService` prompt must be SRE-specific and include the pre-computed risk level — never let Claude decide the risk
 - `NotificationService` critical-risk notifications must include a crisis resource link (non-negotiable ethical requirement)
@@ -309,13 +318,32 @@ flutter run --dart-define=USE_MOCKS=false
 
 ## Environment variables
 
-`flutter_dotenv` loads `.env` at startup. Access in code via `dotenv.env['CLAUDE_API_KEY']`. Initialize once in `main()`:
+`flutter_dotenv` loads `.env` at startup. Access in code via `dotenv.env['KEY_NAME']`. Initialize once in `main()`:
 
 ```dart
 await dotenv.load(fileName: '.env');
 ```
 
-The `.env` file is gitignored. `.env.example` serves as the template. The only key currently needed is `CLAUDE_API_KEY`.
+The `.env` file is gitignored. `.env.example` serves as the template. Two keys are required:
+
+| Key | Used by |
+|-----|---------|
+| `CLAUDE_API_KEY` | `ClaudeService` (issue #15) |
+| `ROOTLY_API_TOKEN` | `RootlyService` (issues #13, #14) |
+
+## Rootly REST API
+
+Base URL: `https://api.rootly.com`  
+Auth header: `Authorization: Bearer ${dotenv.env['ROOTLY_API_TOKEN']}`  
+Content-Type: `application/vnd.api+json`
+
+Key endpoints for issue #13/#14:
+- `GET /v1/users/me` → extract `data.id` (current user ID)
+- `GET /v1/incidents?filter[user_id]=<id>&filter[created_at][gte]=<iso8601>` → incident list; each item has `attributes.severity` (`critical` / `high` / etc.) and `attributes.started_at`
+- `GET /v1/schedules` → list schedule IDs
+- `GET /v1/schedules/{id}/shifts?from=<iso>&to=<iso>` → filter by `data[].relationships.user.data.id == me.id`
+
+After-hours definition: `started_at` time-of-day outside `09:00–18:00` local time (hardcoded proxy; V2 would use the schedule endpoint).
 
 # Instructions
 
