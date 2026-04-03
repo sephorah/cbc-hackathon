@@ -15,6 +15,7 @@
 | 3 | Configure iOS `Info.plist` with HealthKit permissions (`NSHealthShareUsageDescription`, `NSHealthUpdateUsageDescription`) | P0 | S | ✅ |
 | 4 | Set up Codemagic pipeline for cloud Mac builds from Linux | P0 | M | |
 | 5 | Create `.env.example` with `CLAUDE_API_KEY` placeholder | P0 | S | ✅ |
+| 44 | Add `ROOTLY_API_TOKEN` to `.env.example` and `.env` | P0 | S | ✅ |
 
 ---
 
@@ -43,8 +44,8 @@
 | # | Title | Priority | Size | Done |
 |---|-------|----------|------|------|
 | 12 | Implement `HealthService.fetchSleepDuration(days: 7)` via `health` package | P0 | M | ✅ |
-| 13 | Implement `RootlyService.fetchIncidents()` via Rootly MCP | P0 | L | |
-| 14 | Implement `RootlyService.fetchOnCallSchedule()` via Rootly MCP | P0 | M | |
+| 13 | Implement `RootlyService.fetchIncidents()` — (1) `GET /v1/users/me` → user ID, (2) `GET /v1/incidents?filter[user_id]=<id>&filter[created_at][gte]=<30d>` → incident count + severity, (3) compute after-hours pages client-side from `created_at` timestamps outside 9am–6pm | P0 | M | |
+| 14 | Implement `RootlyService.fetchOnCallSchedule()` — (1) `GET /v1/schedules` → schedule IDs, (2) `GET /v1/schedules/{id}/shifts?from=<30d>&to=<now>` for each → filter shifts where `user.id == me.id` → on-call shift count | P0 | S | |
 | 15 | Implement `ClaudeService.getRecommendation(RiskLevel, WorkSignal, HealthSignal) → String` | P0 | M | |
 | 16 | Implement `NotificationService.send(title, body)` via `flutter_local_notifications` | P0 | M | |
 | 17 | Verify push notification mirrors to Apple Watch automatically | P0 | S | |

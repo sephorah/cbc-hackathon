@@ -323,15 +323,20 @@ The `.env` file is gitignored. `.env.example` serves as the template. The only k
 
 1. Read the issue in `issues_backlog.md`
 2. Write the implementation plan to `plans/issue-X-plan.md`
-3. **Wait for approval** before writing any code
-4. Execute the plan, then run `flutter analyze` to verify no regressions
-5. **Make a code review**
-6. Mark the issue as done in issues_backlog.md
-7. Run tests
-8. Git add, commit and push
+3. **Always pull the latest documentation.**
+4. **Wait for approval** before writing any code
+5. Execute the plan, then run `flutter analyze` to verify no regressions
+6. **Make a code review**
+7. Always pull the latest documentation.
+8. Mark the issue as done in issues_backlog.md
+9. Run tests
+10. Git add, commit and push
 
 ## Flutter explanations
 
 Since no one on the team has Flutter experience, explain key concepts when implementing so we can own and explain the project to judges. Explain any generated or non-obvious files. Prioritize explanations for `StressCorrelator` (the deterministic layer judges will interrogate), the Claude prompt structure, and the HealthKit permission flow.
 
 Whenever the actual architecture is updated, update the docs/architecture.md file accordingly.
+
+Always pull the latest documentation.
+Don't assume things related to documentation unless there is actual proof.
