@@ -43,7 +43,7 @@ class OnboardingScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'OnCallHelper',
+          'ProductV1',
           style: TextStyle(
             color: Colors.white,
             fontSize: 34,
@@ -55,7 +55,7 @@ class OnboardingScreen extends StatelessWidget {
         Text(
           'Your private wellbeing companion.',
           style: TextStyle(
-            color: Colors.white.withOpacity(0.6),
+            color: Colors.white.withValues(alpha:0.6),
             fontSize: 17,
           ),
         ),
@@ -70,7 +70,7 @@ class OnboardingScreen extends StatelessWidget {
         Text(
           'What this app reads',
           style: TextStyle(
-            color: Colors.white.withOpacity(0.5),
+            color: Colors.white.withValues(alpha:0.5),
             fontSize: 13,
             fontWeight: FontWeight.w600,
             letterSpacing: 0.8,
@@ -105,7 +105,7 @@ class OnboardingScreen extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(9),
           decoration: BoxDecoration(
-            color: const Color(0xFF6C63FF).withOpacity(0.15),
+            color: const Color(0xFF6C63FF).withValues(alpha:0.15),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Icon(icon, color: const Color(0xFF6C63FF), size: 20),
@@ -127,7 +127,7 @@ class OnboardingScreen extends StatelessWidget {
               Text(
                 subtitle,
                 style: TextStyle(
-                  color: Colors.white.withOpacity(0.55),
+                  color: Colors.white.withValues(alpha:0.55),
                   fontSize: 13,
                   height: 1.4,
                 ),
@@ -147,7 +147,7 @@ class OnboardingScreen extends StatelessWidget {
         color: const Color(0xFF0D2A1A),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: const Color(0xFF2ECC71).withOpacity(0.35),
+          color: const Color(0xFF2ECC71).withValues(alpha:0.35),
         ),
       ),
       child: Row(
@@ -173,7 +173,7 @@ class OnboardingScreen extends StatelessWidget {
                   'Rootly (reads your incidents) and Claude API (generates recommendation text). '
                   'No health data is ever transmitted. Your employer cannot see this app or its results.',
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.6),
+                    color: Colors.white.withValues(alpha:0.6),
                     fontSize: 12,
                     height: 1.45,
                   ),
@@ -194,7 +194,7 @@ class OnboardingScreen extends StatelessWidget {
         color: const Color(0xFF1A1410),
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
-          color: Colors.white.withOpacity(0.08),
+          color: Colors.white.withValues(alpha:0.08),
         ),
       ),
       child: Text(
@@ -202,7 +202,7 @@ class OnboardingScreen extends StatelessWidget {
         'connection. If you are in distress, please reach out to a real person. '
         'Crisis Services Canada: 1-833-456-4566.',
         style: TextStyle(
-          color: Colors.white.withOpacity(0.4),
+          color: Colors.white.withValues(alpha:0.4),
           fontSize: 11,
           fontStyle: FontStyle.italic,
           height: 1.5,

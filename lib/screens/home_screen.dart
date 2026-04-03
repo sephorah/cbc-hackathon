@@ -73,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
       // --- Step 4: send notification (mirrors to Apple Watch automatically) ---
       await NotificationService.send(
-        title: 'OnCallHelper — ${risk.label} Risk',
+        title: 'ProductV1 — ${risk.label} Risk',
         body: recommendation,
         isCritical: risk == RiskLevel.critical,
       );
@@ -124,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const Text(
-          'OnCallHelper',
+          'ProductV1',
           style: TextStyle(
             color: Colors.white,
             fontSize: 24,
@@ -176,14 +176,14 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Icon(
             Icons.favorite_border_rounded,
-            color: Colors.white.withOpacity(0.2),
+            color: Colors.white.withValues(alpha:0.2),
             size: 72,
           ),
           const SizedBox(height: 20),
           Text(
             'Tap below to check in',
             style: TextStyle(
-              color: Colors.white.withOpacity(0.5),
+              color: Colors.white.withValues(alpha:0.5),
               fontSize: 16,
             ),
           ),
@@ -192,7 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
             'Reads your sleep + incident data and sends\na recommendation to your Apple Watch.',
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: Colors.white.withOpacity(0.3),
+              color: Colors.white.withValues(alpha:0.3),
               fontSize: 13,
               height: 1.5,
             ),
@@ -227,7 +227,7 @@ class _HomeScreenState extends State<HomeScreen> {
             'Fetching sleep + incident data\nand computing your risk level',
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: Colors.white.withOpacity(0.45),
+              color: Colors.white.withValues(alpha:0.45),
               fontSize: 13,
               height: 1.5,
             ),
@@ -266,9 +266,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.12),
+        color: color.withValues(alpha:0.12),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withOpacity(0.4)),
+        border: Border.all(color: color.withValues(alpha:0.4)),
       ),
       child: Row(
         children: [
@@ -304,7 +304,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Text(
             'SIGNALS USED',
             style: TextStyle(
-              color: Colors.white.withOpacity(0.4),
+              color: Colors.white.withValues(alpha:0.4),
               fontSize: 11,
               fontWeight: FontWeight.w600,
               letterSpacing: 0.8,
@@ -337,7 +337,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
       decoration: BoxDecoration(
-        color: const Color(0xFF6C63FF).withOpacity(0.12),
+        color: const Color(0xFF6C63FF).withValues(alpha:0.12),
         borderRadius: BorderRadius.circular(6),
       ),
       child: Row(
@@ -361,7 +361,7 @@ class _HomeScreenState extends State<HomeScreen> {
         color: const Color(0xFF15152A),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: const Color(0xFF6C63FF).withOpacity(0.25),
+          color: const Color(0xFF6C63FF).withValues(alpha:0.25),
         ),
       ),
       child: Column(
@@ -378,7 +378,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Text(
                 'AI Recommendation',
                 style: TextStyle(
-                  color: Colors.white.withOpacity(0.5),
+                  color: Colors.white.withValues(alpha:0.5),
                   fontSize: 12,
                 ),
               ),
@@ -406,7 +406,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Text(
           'Notification sent — check your Apple Watch',
           style: TextStyle(
-            color: Colors.white.withOpacity(0.45),
+            color: Colors.white.withValues(alpha:0.45),
             fontSize: 12,
           ),
         ),
@@ -419,14 +419,14 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         Icon(
           Icons.info_outline_rounded,
-          color: Colors.white.withOpacity(0.25),
+          color: Colors.white.withValues(alpha:0.25),
           size: 13,
         ),
         const SizedBox(width: 6),
         Text(
           'Live APIs unavailable — showing demo data',
           style: TextStyle(
-            color: Colors.white.withOpacity(0.25),
+            color: Colors.white.withValues(alpha:0.25),
             fontSize: 12,
           ),
         ),
@@ -443,7 +443,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Icon(
             Icons.error_outline_rounded,
-            color: Colors.red.withOpacity(0.6),
+            color: Colors.red.withValues(alpha:0.6),
             size: 52,
           ),
           const SizedBox(height: 18),
@@ -460,7 +460,7 @@ class _HomeScreenState extends State<HomeScreen> {
             _errorMessage ?? 'Unknown error.',
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: Colors.white.withOpacity(0.45),
+              color: Colors.white.withValues(alpha:0.45),
               fontSize: 13,
               height: 1.4,
             ),
@@ -488,7 +488,7 @@ class _HomeScreenState extends State<HomeScreen> {
         onPressed: busy ? null : _runAnalysis,
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF6C63FF),
-          disabledBackgroundColor: const Color(0xFF6C63FF).withOpacity(0.35),
+          disabledBackgroundColor: const Color(0xFF6C63FF).withValues(alpha:0.35),
           padding: const EdgeInsets.symmetric(vertical: 16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
