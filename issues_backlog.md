@@ -55,10 +55,10 @@
 
 | # | Title | Priority | Size | Done |
 |---|-------|----------|------|------|
-| 18 | Create `MockHealthService` with hardcoded sleep signal (5.5h, 7 days) | P0 | S | |
-| 19 | Create `MockRootlyService` with hardcoded incident + schedule data | P0 | S | |
-| 20 | Create `MockClaudeService` with hardcoded recommendation strings per risk level | P0 | S | |
-| 21 | Add environment flag to switch between live and mock services | P1 | S | |
+| 18 | Create `MockHealthService` with hardcoded sleep signal (5.5h, 7 days) | P0 | S | ✅ |
+| 19 | Create `MockRootlyService` with hardcoded incident + schedule data | P0 | S | ✅ |
+| 20 | Create `MockClaudeService` with hardcoded recommendation strings per risk level | P0 | S | ✅ |
+| 21 | Add environment flag to switch between live and mock services | P1 | S | ✅ |
 
 ---
 

@@ -225,12 +225,12 @@ PITCH ANGLE FROM REPORT:
 | Area | Status | Files |
 |------|--------|-------|
 | Models | ✅ Done | `health_signal.dart`, `work_signal.dart`, `risk_level.dart` |
-| Deterministic layer | ❌ Not started | `stress_correlator.dart`, `constants/thresholds.dart` |
+| Deterministic layer | ✅ Done | `stress_correlator.dart`, `constants/thresholds.dart` |
 | Services | ❌ Not started | `health_service.dart`, `rootly_service.dart`, `claude_service.dart`, `notification_service.dart` |
 | Mock fallbacks | ❌ Not started | `mock/mock_health_service.dart`, `mock/mock_rootly_service.dart` |
 | Screens | ❌ Not started | `onboarding_screen.dart`, `home_screen.dart` |
 
-**Next issue:** Issue #9 (StressCorrelator + thresholds). Detailed plan at `plans/issue-9-plan.md`.
+**Next issue:** Issue #18 (MockHealthService). Detailed plan at `plans/issue-18-plan.md`.
 
 ## Planned lib/ structure
 
@@ -249,7 +249,7 @@ lib/
 │   └── mock/                      # Drop-in mocks for demo fallback (issues #18–21)
 │       ├── mock_health_service.dart
 │       └── mock_rootly_service.dart
-├── core/                  # ❌ NOT YET CREATED
+├── core/                  # ✅ DONE
 │   ├── stress_correlator.dart     # Deterministic scoring logic (issue #9)
 │   └── constants/
 │       └── thresholds.dart        # Named threshold constants — single source of truth (issue #10)
