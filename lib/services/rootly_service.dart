@@ -50,7 +50,12 @@ class RootlyService {
           'GET /v1/users/me returned ${response.statusCode}');
     }
     final body = jsonDecode(response.body) as Map<String, dynamic>;
-    return body['data']['id'] as String;
+    final data = body['data'] as Map<String, dynamic>?;
+    final id = data?['id'] as String?;
+    if (id == null) {
+      throw const RootlyApiException('GET /v1/users/me: missing data.id in response');
+    }
+    return id;
   }
 
   /// Fetches incidents for the current user over the last [days] days.
@@ -93,7 +98,8 @@ class RootlyService {
 
     for (final item in data) {
       final attrs = (item as Map<String, dynamic>)['attributes']
-          as Map<String, dynamic>;
+          as Map<String, dynamic>?;
+      if (attrs == null) continue;
       final severity = attrs['severity'] as String? ?? '';
 
       total++;
