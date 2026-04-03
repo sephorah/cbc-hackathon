@@ -46,9 +46,9 @@
 | 12 | Implement `HealthService.fetchSleepDuration(days: 7)` via `health` package | P0 | M | ✅ |
 | 13 | Implement `RootlyService.fetchIncidents()` — (1) `GET /v1/users/me` → user ID, (2) `GET /v1/incidents?filter[user_id]=<id>&filter[created_at][gte]=<30d>` → incident count + severity, (3) compute after-hours pages client-side from `created_at` timestamps outside 9am–6pm | P0 | M | ✅ |
 | 14 | Implement `RootlyService.fetchOnCallSchedule()` — (1) `GET /v1/schedules` → schedule IDs, (2) `GET /v1/schedules/{id}/shifts?from=<30d>&to=<now>` for each → filter shifts where `user.id == me.id` → on-call shift count | P0 | S | ✅ |
-| 15 | Implement `ClaudeService.getRecommendation(RiskLevel, WorkSignal, HealthSignal) → String` | P0 | M | |
-| 16 | Implement `NotificationService.send(title, body)` via `flutter_local_notifications` | P0 | M | |
-| 17 | Verify push notification mirrors to Apple Watch automatically | P0 | S | |
+| 15 | Implement `ClaudeService.getRecommendation(RiskLevel, WorkSignal, HealthSignal) → String` | P0 | M | ✅ |
+| 16 | Implement `NotificationService.send(title, body)` via `flutter_local_notifications` | P0 | M | ✅ |
+| 17 | Verify push notification mirrors to Apple Watch automatically | P0 | S | ✅ |
 
 ---
 
@@ -67,9 +67,9 @@
 
 | # | Title | Priority | Size | Done |
 |---|-------|----------|------|------|
-| 22 | Write Claude system prompt scoped to SRE context (not generic wellness) | P1 | M | |
-| 23 | Include raw signal values in prompt (not just risk label) for specificity | P1 | S | |
-| 24 | Add crisis handoff instruction to prompt: if critical, include human resource link in output | P0 | S | |
+| 22 | Write Claude system prompt scoped to SRE context (not generic wellness) | P1 | M | ✅ |
+| 23 | Include raw signal values in prompt (not just risk label) for specificity | P1 | S | ✅ |
+| 24 | Add crisis handoff instruction to prompt: if critical, include human resource link in output | P0 | S | ✅ |
 
 ---
 
@@ -77,10 +77,10 @@
 
 | # | Title | Priority | Size | Done |
 |---|-------|----------|------|------|
-| 25 | Build `OnboardingScreen`: what data is collected, why, privacy guarantee (data never leaves device) | P1 | M | |
-| 26 | Build `HomeScreen`: trigger analysis button, display last risk level and recommendation | P1 | M | |
-| 27 | Show loading state while fetching data and calling Claude API | P2 | S | |
-| 28 | Show error state if any service fails (with fallback to mock data) | P2 | S | |
+| 25 | Build `OnboardingScreen`: what data is collected, why, privacy guarantee (data never leaves device) | P1 | M | ✅ |
+| 26 | Build `HomeScreen`: trigger analysis button, display last risk level and recommendation | P1 | M | ✅ |
+| 27 | Show loading state while fetching data and calling Claude API | P2 | S | ✅ |
+| 28 | Show error state if any service fails (with fallback to mock data) | P2 | S | ✅ |
 
 ---
 
@@ -88,9 +88,9 @@
 
 | # | Title | Priority | Size | Done |
 |---|-------|----------|------|------|
-| 29 | Critical risk path: notification body includes link to human resource / crisis line | P0 | S | |
-| 30 | Add disclaimer in app: "This app does not replace human support or professional help" | P1 | S | |
-| 31 | Confirm no data leaves device (no analytics, no crash reporting that sends health data) | P0 | S | |
+| 29 | Critical risk path: notification body includes link to human resource / crisis line | P0 | S | ✅ |
+| 30 | Add disclaimer in app: "This app does not replace human support or professional help" | P1 | S | ✅ |
+| 31 | Confirm no data leaves device (no analytics, no crash reporting that sends health data) | P0 | S | ✅ |
 
 ---
 
