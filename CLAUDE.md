@@ -227,10 +227,11 @@ PITCH ANGLE FROM REPORT:
 | Models | ✅ Done | `health_signal.dart`, `work_signal.dart`, `risk_level.dart` |
 | Deterministic layer | ✅ Done | `stress_correlator.dart`, `constants/thresholds.dart` |
 | Services | ❌ Not started | `health_service.dart`, `rootly_service.dart`, `claude_service.dart`, `notification_service.dart` |
-| Mock fallbacks | ❌ Not started | `mock/mock_health_service.dart`, `mock/mock_rootly_service.dart` |
+| Mock fallbacks | ✅ Done | `mock/mock_health_service.dart`, `mock/mock_rootly_service.dart`, `mock/mock_claude_service.dart` |
+| Service locator | ✅ Done | `core/service_locator.dart` — `useMocks` flag wires mock vs live services |
 | Screens | ❌ Not started | `onboarding_screen.dart`, `home_screen.dart` |
 
-**Next issue:** Issue #18 (MockHealthService). Detailed plan at `plans/issue-18-plan.md`.
+**Next issue:** Issue #15 (ClaudeService). Detailed plan at `plans/issue-15-plan.md`.
 
 ## Planned lib/ structure
 
@@ -241,18 +242,21 @@ lib/
 │   ├── health_signal.dart # ✅ Total sleep duration + fragmentation count (nullable) from HealthKit
 │   ├── work_signal.dart   # ✅ Incident count, severity, after-hours pages
 │   └── risk_level.dart    # ✅ Enum: low / moderate / high / critical
-├── services/              # ❌ NOT YET CREATED
+├── services/              # ❌ NOT YET CREATED (except mocks)
 │   ├── health_service.dart        # HealthKit via `health` package (issue #12)
-│   ├── rootly_service.dart        # Rootly MCP HTTP calls (issue #13)
-│   ├── claude_service.dart        # Claude API — recommendation text only (issue #14)
-│   ├── notification_service.dart  # flutter_local_notifications (issue #15)
-│   └── mock/                      # Drop-in mocks for demo fallback (issues #18–21)
-│       ├── mock_health_service.dart
-│       └── mock_rootly_service.dart
+│   ├── rootly_service.dart        # Rootly MCP HTTP calls (issues #13, #14)
+│   ├── claude_service.dart        # Claude API — recommendation text only (issue #15)
+│   ├── notification_service.dart  # flutter_local_notifications (issue #16)
+│   └── mock/                      # ✅ Drop-in mocks for demo fallback (issues #18–21)
+│       ├── mock_health_service.dart   # 5h30m sleep + fragmentation=3
+│       ├── mock_rootly_service.dart   # 1 critical + 2 high + 2 after-hours + on-call
+│       └── mock_claude_service.dart   # Hardcoded recommendation per RiskLevel
 ├── core/                  # ✅ DONE
 │   ├── stress_correlator.dart     # Deterministic scoring logic (issue #9)
+│   ├── service_locator.dart       # ✅ useMocks flag + static service getters (issue #21)
 │   └── constants/
-│       └── thresholds.dart        # Named threshold constants — single source of truth (issue #10)
+│       ├── thresholds.dart        # Named threshold constants — single source of truth (issue #10)
+│       └── crisis_resources.dart  # ✅ Crisis line strings shared by mock and real ClaudeService
 └── screens/               # ❌ NOT YET CREATED
     ├── onboarding_screen.dart     # One-time privacy explainer (issue #25)
     └── home_screen.dart           # Main dashboard + trigger button (issue #26)
@@ -294,8 +298,11 @@ flutter test test/path/to/file_test.dart
 # Build iOS (no code signing — for CI / simulator)
 flutter build ios --no-codesign
 
-# Run on connected iOS device or simulator
-flutter run
+# Run with mock data (default — simulator, Linux dev, demo fallback)
+flutter run --dart-define=USE_MOCKS=true
+
+# Run with live services (physical iPhone + Apple Watch, real APIs)
+flutter run --dart-define=USE_MOCKS=false
 ```
 
 > Building for a real device requires Xcode on macOS. Use Codemagic (issue #4) for cloud Mac builds from this Linux machine.
@@ -319,7 +326,8 @@ The `.env` file is gitignored. `.env.example` serves as the template. The only k
 3. **Wait for approval** before writing any code
 4. Execute the plan, then run `flutter analyze` to verify no regressions
 5. Make a code review
-5. Mark the issue as done in issues_backlog.md
+6. Mark the issue as done in issues_backlog.md
+7. Run tests before pushing
 
 ## Flutter explanations
 

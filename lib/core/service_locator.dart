@@ -5,9 +5,11 @@ import 'package:oncallhelper/services/mock/mock_claude_service.dart';
 import 'package:oncallhelper/services/mock/mock_health_service.dart';
 import 'package:oncallhelper/services/mock/mock_rootly_service.dart';
 
-/// Set to true to run the app with hardcoded mock data (demo safety / Linux dev).
-/// Set to false once live services (issues #12–15) are implemented.
-const bool useMocks = true;
+/// Controls whether the app uses hardcoded mock data or live services.
+///
+/// Defaults to true (mock mode) — safe for Linux dev, CI, and simulator.
+/// To build with live services: flutter run --dart-define=USE_MOCKS=false
+const bool useMocks = bool.fromEnvironment('USE_MOCKS', defaultValue: true);
 
 /// Single source of service instances for the app.
 ///
@@ -30,11 +32,11 @@ class ServiceLocator {
   // --- Stubs for live services (replaced in issues #12–15) ---
 
   static Future<HealthSignal> _liveHealthNotImplemented() =>
-      Future<HealthSignal>.error(UnimplementedError('HealthService not yet implemented — set useMocks = true'));
+      Future<HealthSignal>.error(UnimplementedError('HealthService not yet implemented — build with --dart-define=USE_MOCKS=true'));
 
   static Future<WorkSignal> _liveWorkNotImplemented() =>
-      Future<WorkSignal>.error(UnimplementedError('RootlyService not yet implemented — set useMocks = true'));
+      Future<WorkSignal>.error(UnimplementedError('RootlyService not yet implemented — build with --dart-define=USE_MOCKS=true'));
 
   static Future<String> _liveClaudeNotImplemented() =>
-      Future<String>.error(UnimplementedError('ClaudeService not yet implemented — set useMocks = true'));
+      Future<String>.error(UnimplementedError('ClaudeService not yet implemented — build with --dart-define=USE_MOCKS=true'));
 }
