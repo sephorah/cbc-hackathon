@@ -1,10 +1,10 @@
-# OnCallHelper
+# Recover
 
 **Tagline:** "Your personal AI wellbeing companion that integrates work and health data — all private, all local."
 
 ## Product Vision
 
-OnCallHelper is a privacy-first AI assistant for on-call engineers that integrates work data from Rootly MCP (incidents, schedules, on-call shifts) with personal health metrics from Apple Watch. Its purpose is to prevent burnout, promote positive mental health, and provide actionable resources — all while keeping sensitive data entirely under the user's control.
+Recover is a privacy-first AI assistant for on-call engineers that integrates work data from Rootly MCP (incidents, schedules, on-call shifts) with personal health metrics from Apple Watch. Its purpose is to prevent burnout, promote positive mental health, and provide actionable resources — all while keeping sensitive data entirely under the user's control.
 
 ## Target Users
 
@@ -42,7 +42,7 @@ Example output:
 
 ### Optional Trusted Support (V2)
 - Users can choose to connect with trusted colleagues or mentors for guidance.
-- OnCallHelper facilitates the connection without exposing sensitive health or work data.
+- Recover facilitates the connection without exposing sensitive health or work data.
 
 ### User Interface
 - Push notification on iPhone with the AI recommendation — mirrors to Apple Watch automatically (no watchOS app required).
@@ -50,7 +50,7 @@ Example output:
 
 ## Business Value & Company Integration
 
-- Companies can sponsor or pay for OnCallHelper as part of their employee wellbeing programs.
+- Companies can sponsor or pay for Recover as part of their employee wellbeing programs.
 - **Company perspective:** Demonstrates investment in mental health without ever accessing sensitive personal data.
 - Employees retain full privacy but can opt into company-provided resources — wellness apps, coaching, or therapy vouchers.
 - Positions the company as responsible and employee-focused, improving morale and retention.

@@ -6,7 +6,7 @@
 lib/
 ├── main.dart              # App entry point — currently a placeholder counter app, will be replaced by issues #25/#26
 ├── models/
-│   ├── health_signal.dart # Sleep duration, quality from HealthKit (issue #6)
+│   ├── health_signal.dart # Total sleep duration + fragmentation count (nullable) from HealthKit (issue #6)
 │   ├── work_signal.dart   # Incident count, severity, after-hours pages (issue #7)
 │   └── risk_level.dart    # Enum: LOW / MODERATE / HIGH / CRITICAL (issue #8)
 ├── services/

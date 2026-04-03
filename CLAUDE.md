@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-# OnCallHelper
+# Recover
 
 ## What we're building
 A privacy-first Flutter iOS app for on-call engineers that correlates 
@@ -127,7 +127,7 @@ ON AI SENTIMENT:
 - 37% of SREs want technical training to use AI effectively
 - 46% of individual contributors approach AI with caution vs 30% of 
   managers — shows engineers are skeptical, meaning trust is earned, 
-  not assumed. OnCallHelper must be transparent.
+  not assumed. Recover must be transparent.
 
 ON LEARNING:
 - Most SREs don't have enough time for technical learning
@@ -135,7 +135,7 @@ ON LEARNING:
 
 PITCH ANGLE FROM REPORT:
 "Incidents don't end when they're over" (Sergey Katsev, VP Engineering)
-— this is the human cost OnCallHelper addresses.
+— this is the human cost Recover addresses.
 
 ## Limits and drawbacks to address before submission
 - Crisis handoff missing: if risk is critical, notification MUST point 
@@ -226,7 +226,7 @@ PITCH ANGLE FROM REPORT:
 lib/
 ├── main.dart              # App entry point — currently a placeholder counter app, will be replaced by issues #25/#26
 ├── models/
-│   ├── health_signal.dart # Sleep duration, quality from HealthKit (issue #6)
+│   ├── health_signal.dart # Total sleep duration + fragmentation count (nullable) from HealthKit (issue #6)
 │   ├── work_signal.dart   # Incident count, severity, after-hours pages (issue #7)
 │   └── risk_level.dart    # Enum: LOW / MODERATE / HIGH / CRITICAL (issue #8)
 ├── services/
@@ -238,7 +238,9 @@ lib/
 │       ├── mock_health_service.dart
 │       └── mock_rootly_service.dart
 ├── core/
-│   └── stress_correlator.dart     # Deterministic scoring logic (issues #9–11)
+│   ├── stress_correlator.dart     # Deterministic scoring logic (issues #9–11)
+│   └── constants/
+│       └── thresholds.dart        # Named threshold constants — single source of truth (issue #10)
 └── screens/
     ├── onboarding_screen.dart     # One-time privacy explainer (issue #25)
     └── home_screen.dart           # Main dashboard + trigger button (issue #26)
@@ -294,6 +296,7 @@ flutter run
 2. Write the implementation plan to `plans/issue-X-plan.md`
 3. **Wait for approval** before writing any code
 4. Execute the plan, then run `flutter analyze` to verify no regressions
+5. Mark the issue as done in issues_backlog.md
 
 ## Flutter explanations
 
