@@ -96,7 +96,7 @@ Rules:
     buf.writeln();
     buf.writeln('RISK LEVEL (pre-computed, do not change): ${riskLevel.name.toUpperCase()}');
     buf.writeln();
-    buf.writeln('WORK SIGNALS (past 7 days):');
+    buf.writeln('WORK SIGNALS (past 30 days):');
     buf.writeln('  Total incidents: ${work.totalIncidents}');
     buf.writeln('  Critical incidents: ${work.criticalCount}');
     buf.writeln('  High-severity incidents: ${work.highCount}');
