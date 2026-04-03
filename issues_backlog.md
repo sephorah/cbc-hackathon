@@ -24,7 +24,7 @@
 |---|-------|----------|------|------|
 | 6 | Define `HealthSignal` model (total sleep duration, fragmentation count — nullable if watch not worn, date) | P0 | S | ✅ |
 | 7 | Define `WorkSignal` model (incident count, after-hours pages, on-call shifts, severity) | P0 | S | ✅ |
-| 8 | Define `RiskLevel` enum (low / medium / high / critical) | P0 | S | |
+| 8 | Define `RiskLevel` enum (low / medium / high / critical) | P0 | S | ✅ |
 
 ---
 
