@@ -226,12 +226,12 @@ PITCH ANGLE FROM REPORT:
 |------|--------|-------|
 | Models | ✅ Done | `health_signal.dart`, `work_signal.dart`, `risk_level.dart` |
 | Deterministic layer | ✅ Done | `stress_correlator.dart`, `constants/thresholds.dart` |
-| Services | ❌ Not started | `health_service.dart`, `rootly_service.dart`, `claude_service.dart`, `notification_service.dart` |
+| Services | 🔶 In progress | ✅ `health_service.dart` · ❌ `rootly_service.dart`, `claude_service.dart`, `notification_service.dart` |
 | Mock fallbacks | ✅ Done | `mock/mock_health_service.dart`, `mock/mock_rootly_service.dart`, `mock/mock_claude_service.dart` |
 | Service locator | ✅ Done | `core/service_locator.dart` — `useMocks` flag wires mock vs live services |
 | Screens | ❌ Not started | `onboarding_screen.dart`, `home_screen.dart` |
 
-**Next issue:** Issue #15 (ClaudeService). Write a plan to `plans/issue-15-plan.md` before coding (see Issue workflow below).
+**Next issue:** Issue #13 (RootlyService.fetchIncidents()). Write a plan to `plans/issue-13-plan.md` before coding (see Issue workflow below).
 
 ## Planned lib/ structure
 
@@ -242,8 +242,8 @@ lib/
 │   ├── health_signal.dart # ✅ Total sleep duration + fragmentation count (nullable) from HealthKit
 │   ├── work_signal.dart   # ✅ Incident count, severity, after-hours pages
 │   └── risk_level.dart    # ✅ Enum: low / moderate / high / critical
-├── services/              # ❌ NOT YET CREATED (except mocks)
-│   ├── health_service.dart        # HealthKit via `health` package (issue #12)
+├── services/              # Partial — health_service done, rest pending
+│   ├── health_service.dart        # ✅ HealthKit sleep data via `health` package (issue #12)
 │   ├── rootly_service.dart        # Rootly MCP HTTP calls (issues #13, #14)
 │   ├── claude_service.dart        # Claude API — recommendation text only (issue #15)
 │   ├── notification_service.dart  # flutter_local_notifications (issue #16)
@@ -325,9 +325,10 @@ The `.env` file is gitignored. `.env.example` serves as the template. The only k
 2. Write the implementation plan to `plans/issue-X-plan.md`
 3. **Wait for approval** before writing any code
 4. Execute the plan, then run `flutter analyze` to verify no regressions
-5. Make a code review
+5. **Make a code review**
 6. Mark the issue as done in issues_backlog.md
-7. Run tests before pushing
+7. Run tests
+8. Git add, commit and push
 
 ## Flutter explanations
 
