@@ -11,8 +11,8 @@ lib/
 │   └── risk_level.dart    # Enum: LOW / MODERATE / HIGH / CRITICAL (issue #8)
 ├── services/
 │   ├── health_service.dart        # HealthKit via `health` package (issue #12)
-│   ├── rootly_service.dart        # ✅ Rootly REST API — fetchIncidents() (issue #13)
-│   ├── claude_service.dart        # Claude API — recommendation text only (issue #14)
+│   ├── rootly_service.dart        # ✅ Rootly REST API — fetchIncidents() + fetch() → WorkSignal (issues #13, #14)
+│   ├── claude_service.dart        # Claude API — recommendation text only (issue #15)
 │   ├── notification_service.dart  # flutter_local_notifications (issue #15)
 │   └── mock/                      # Drop-in mocks for demo fallback (issues #18–21)
 │       ├── mock_health_service.dart
@@ -51,7 +51,7 @@ RootlyService ──┘   (deterministic)      (text only)       (push + Apple W
 
 ## Key implementation constraints
 
-- All data stays on device — the only outbound HTTP calls are to Rootly MCP and the Claude API
+- All data stays on device — the only outbound HTTP calls are to Rootly REST API and the Claude API
 - `StressCorrelator` thresholds must be named constants in `core/constants/thresholds.dart` — judges will ask "who decided these and why"
 - `ClaudeService` prompt must be SRE-specific and include the pre-computed risk level — Claude never decides the risk
 - `NotificationService` must include a crisis resource link in critical-risk notifications (non-negotiable ethical requirement)
