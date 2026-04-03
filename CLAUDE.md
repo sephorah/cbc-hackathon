@@ -220,16 +220,28 @@ PITCH ANGLE FROM REPORT:
 
 # Code Architecture
 
+## Implementation status
+
+| Area | Status | Files |
+|------|--------|-------|
+| Models | ✅ Done | `health_signal.dart`, `work_signal.dart`, `risk_level.dart` |
+| Deterministic layer | ❌ Not started | `stress_correlator.dart`, `constants/thresholds.dart` |
+| Services | ❌ Not started | `health_service.dart`, `rootly_service.dart`, `claude_service.dart`, `notification_service.dart` |
+| Mock fallbacks | ❌ Not started | `mock/mock_health_service.dart`, `mock/mock_rootly_service.dart` |
+| Screens | ❌ Not started | `onboarding_screen.dart`, `home_screen.dart` |
+
+**Next issue:** Issue #9 (StressCorrelator + thresholds). Detailed plan at `plans/issue-9-plan.md`.
+
 ## Planned lib/ structure
 
 ```
 lib/
-├── main.dart              # App entry point — currently a placeholder counter app, will be replaced by issues #25/#26
-├── models/
-│   ├── health_signal.dart # Total sleep duration + fragmentation count (nullable) from HealthKit (issue #6)
-│   ├── work_signal.dart   # Incident count, severity, after-hours pages (issue #7)
-│   └── risk_level.dart    # Enum: LOW / MODERATE / HIGH / CRITICAL (issue #8)
-├── services/
+├── main.dart              # PLACEHOLDER — will be replaced by issues #25/#26
+├── models/                # ✅ ALL DONE
+│   ├── health_signal.dart # ✅ Total sleep duration + fragmentation count (nullable) from HealthKit
+│   ├── work_signal.dart   # ✅ Incident count, severity, after-hours pages
+│   └── risk_level.dart    # ✅ Enum: low / moderate / high / critical
+├── services/              # ❌ NOT YET CREATED
 │   ├── health_service.dart        # HealthKit via `health` package (issue #12)
 │   ├── rootly_service.dart        # Rootly MCP HTTP calls (issue #13)
 │   ├── claude_service.dart        # Claude API — recommendation text only (issue #14)
@@ -237,11 +249,11 @@ lib/
 │   └── mock/                      # Drop-in mocks for demo fallback (issues #18–21)
 │       ├── mock_health_service.dart
 │       └── mock_rootly_service.dart
-├── core/
-│   ├── stress_correlator.dart     # Deterministic scoring logic (issues #9–11)
+├── core/                  # ❌ NOT YET CREATED
+│   ├── stress_correlator.dart     # Deterministic scoring logic (issue #9)
 │   └── constants/
 │       └── thresholds.dart        # Named threshold constants — single source of truth (issue #10)
-└── screens/
+└── screens/               # ❌ NOT YET CREATED
     ├── onboarding_screen.dart     # One-time privacy explainer (issue #25)
     └── home_screen.dart           # Main dashboard + trigger button (issue #26)
 ```
@@ -288,6 +300,16 @@ flutter run
 
 > Building for a real device requires Xcode on macOS. Use Codemagic (issue #4) for cloud Mac builds from this Linux machine.
 
+## Environment variables
+
+`flutter_dotenv` loads `.env` at startup. Access in code via `dotenv.env['CLAUDE_API_KEY']`. Initialize once in `main()`:
+
+```dart
+await dotenv.load(fileName: '.env');
+```
+
+The `.env` file is gitignored. `.env.example` serves as the template. The only key currently needed is `CLAUDE_API_KEY`.
+
 # Instructions
 
 ## Issue workflow
@@ -296,6 +318,7 @@ flutter run
 2. Write the implementation plan to `plans/issue-X-plan.md`
 3. **Wait for approval** before writing any code
 4. Execute the plan, then run `flutter analyze` to verify no regressions
+5. Make a code review
 5. Mark the issue as done in issues_backlog.md
 
 ## Flutter explanations

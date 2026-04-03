@@ -32,9 +32,9 @@
 
 | # | Title | Priority | Size | Done |
 |---|-------|----------|------|------|
-| 9 | Implement `StressCorrelator.compute(WorkSignal, HealthSignal) → RiskLevel` with explicit weighted thresholds | P0 | M | |
-| 10 | Define thresholds in `core/constants/thresholds.dart` (single source of truth) | P0 | S | |
-| 11 | Write unit tests for `StressCorrelator` covering all risk levels and edge cases | P1 | M | |
+| 9 | Implement `StressCorrelator.compute(WorkSignal, HealthSignal) → RiskLevel` with explicit weighted thresholds | P0 | M | ✅ |
+| 10 | Define thresholds in `core/constants/thresholds.dart` (single source of truth) | P0 | S | ✅ |
+| 11 | Write unit tests for `StressCorrelator` covering all risk levels and edge cases | P1 | M | ✅ |
 
 ---
 
@@ -102,6 +102,7 @@
 | 34 | Prepare demo script: walk through exactly what happens when notification fires | P1 | M | |
 | 35 | Prepare answer for "show me the correlation formula" (printout or slide) | P1 | S | |
 | 36 | Test Apple Watch notification mirror on physical device | P0 | M | |
+| 43 | Demo live trigger: create and resolve a real incident via Rootly trial account to drive the full pipeline end-to-end | P1 | S | |
 
 ---
 
