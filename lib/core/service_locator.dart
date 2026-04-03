@@ -11,29 +11,30 @@ const bool useMocks = true;
 
 /// Single source of service instances for the app.
 ///
+/// All getters return Futures so callers are async-ready when live services land.
 /// Real service getters will replace the mock branches in issues #12–15.
 /// To swap a service, change the corresponding getter — callers are unaffected.
 class ServiceLocator {
   const ServiceLocator._();
 
-  static HealthSignal fetchHealth() =>
+  static Future<HealthSignal> fetchHealth() =>
       useMocks ? MockHealthService.fetch() : _liveHealthNotImplemented();
 
-  static WorkSignal fetchWork() =>
+  static Future<WorkSignal> fetchWork() =>
       useMocks ? MockRootlyService.fetch() : _liveWorkNotImplemented();
 
-  static String getRecommendation(RiskLevel risk) => useMocks
+  static Future<String> getRecommendation(RiskLevel risk) => useMocks
       ? MockClaudeService.getRecommendation(risk)
       : _liveClaudeNotImplemented();
 
   // --- Stubs for live services (replaced in issues #12–15) ---
 
-  static HealthSignal _liveHealthNotImplemented() =>
-      throw UnimplementedError('HealthService not yet implemented — set useMocks = true');
+  static Future<HealthSignal> _liveHealthNotImplemented() =>
+      Future<HealthSignal>.error(UnimplementedError('HealthService not yet implemented — set useMocks = true'));
 
-  static WorkSignal _liveWorkNotImplemented() =>
-      throw UnimplementedError('RootlyService not yet implemented — set useMocks = true');
+  static Future<WorkSignal> _liveWorkNotImplemented() =>
+      Future<WorkSignal>.error(UnimplementedError('RootlyService not yet implemented — set useMocks = true'));
 
-  static String _liveClaudeNotImplemented() =>
-      throw UnimplementedError('ClaudeService not yet implemented — set useMocks = true');
+  static Future<String> _liveClaudeNotImplemented() =>
+      Future<String>.error(UnimplementedError('ClaudeService not yet implemented — set useMocks = true'));
 }

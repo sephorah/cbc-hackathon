@@ -43,7 +43,7 @@ import 'package:oncallhelper/models/health_signal.dart';
 class MockHealthService {
   const MockHealthService._();
 
-  static HealthSignal fetch() => HealthSignal(
+  static Future<HealthSignal> fetch() async => HealthSignal(
         date: DateTime.now(),
         totalSleepDuration: const Duration(hours: 5, minutes: 30),
         fragmentationCount: 3,

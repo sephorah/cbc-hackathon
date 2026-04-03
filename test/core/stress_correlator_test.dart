@@ -56,7 +56,7 @@ void main() {
     });
 
     test('high work load with full recovery (3 critical, 8h) — combined=3.5', () {
-      // rawWork=15 → clamped to 12 → normWork=10, rawSleep=0
+      // rawWork=15 → (15/12) clamped to 1.0 → normWork=10, rawSleep=0
       // combined = 0×0.65 + 10×0.35 = 3.5
       expect(
         StressCorrelator.compute(

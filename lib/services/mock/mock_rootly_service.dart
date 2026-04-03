@@ -4,14 +4,14 @@ import 'package:oncallhelper/models/work_signal.dart';
 ///
 /// Returns a hardcoded signal representing a stressed on-call week:
 /// - 1 critical incident (5 pts), 2 high (4 pts), 2 after-hours (4 pts), on-call (2 pts)
-/// - rawWork = 15 → clamped to 12 → normWork = 10
+/// - rawWork = 15 → (15/12) clamped to 1.0 → normWork = 10
 ///
 /// Combined with MockHealthService (normSleep=5.0):
 ///   combined = 5.0 × 0.65 + 10 × 0.35 = 6.75 → RiskLevel.high
 class MockRootlyService {
   const MockRootlyService._();
 
-  static WorkSignal fetch() {
+  static Future<WorkSignal> fetch() async {
     final now = DateTime.now();
     return WorkSignal(
       windowStart: now.subtract(const Duration(days: 7)),
