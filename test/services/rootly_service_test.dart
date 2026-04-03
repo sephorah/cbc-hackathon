@@ -103,4 +103,56 @@ void main() {
       expect(result.afterHours, 0);
     });
   });
+
+  group('RootlyService.parseOnCallSchedule', () {
+    Map<String, dynamic> shift(String userId) => {
+          'relationships': {
+            'user': {
+              'data': {'id': userId}
+            }
+          }
+        };
+
+    test('empty list returns false', () {
+      expect(RootlyService.parseOnCallSchedule([], 'user-1'), false);
+    });
+
+    test('shift with a different user returns false', () {
+      expect(
+          RootlyService.parseOnCallSchedule([shift('user-2')], 'user-1'),
+          false);
+    });
+
+    test('shift with matching user returns true', () {
+      expect(
+          RootlyService.parseOnCallSchedule([shift('user-1')], 'user-1'),
+          true);
+    });
+
+    test('multiple shifts, one matching, returns true', () {
+      expect(
+          RootlyService.parseOnCallSchedule(
+              [shift('user-2'), shift('user-1'), shift('user-3')], 'user-1'),
+          true);
+    });
+
+    test('missing relationships does not throw and returns false', () {
+      expect(
+          RootlyService.parseOnCallSchedule(
+              [<String, dynamic>{'attributes': <String, dynamic>{}}], 'user-1'),
+          false);
+    });
+
+    test('null user data does not throw and returns false', () {
+      expect(
+          RootlyService.parseOnCallSchedule([
+            <String, dynamic>{
+              'relationships': <String, dynamic>{
+                'user': <String, dynamic>{'data': null}
+              }
+            }
+          ], 'user-1'),
+          false);
+    });
+  });
 }
