@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import '../core/stress_correlator.dart';
+import '../core/service_locator.dart';
 import '../models/health_signal.dart';
 import '../models/risk_level.dart';
 import '../models/work_signal.dart';
-import '../services/claude_service.dart';
-import '../services/health_service.dart';
 import '../services/mock/mock_claude_service.dart';
 import '../services/mock/mock_health_service.dart';
 import '../services/mock/mock_rootly_service.dart';
 import '../services/notification_service.dart';
-import '../services/rootly_service.dart';
 
 enum _State { idle, loading, done, error }
 
@@ -52,8 +50,8 @@ class _HomeScreenState extends State<HomeScreen> {
       WorkSignal work;
       HealthSignal health;
       try {
-        work = await RootlyService.fetchWorkSignal();
-        health = await HealthService.fetch();
+        work = await ServiceLocator.fetchWork();
+        health = await ServiceLocator.fetchHealth();
       } catch (_) {
         work = await MockRootlyService.fetch();
         health = await MockHealthService.fetch();
@@ -67,9 +65,9 @@ class _HomeScreenState extends State<HomeScreen> {
       String recommendation;
       try {
         recommendation =
-            await ClaudeService().getRecommendation(risk, work, health);
+            await ServiceLocator.getRecommendation(risk, work, health);
       } catch (_) {
-        recommendation = await MockClaudeService.getRecommendation(risk);
+        recommendation = await MockClaudeService.getRecommendation(risk, work, health);
         _usedMockFallback = true;
       }
 

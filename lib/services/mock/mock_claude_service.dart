@@ -1,5 +1,7 @@
 import 'package:productv1/core/constants/crisis_resources.dart';
+import 'package:productv1/models/health_signal.dart';
 import 'package:productv1/models/risk_level.dart';
+import 'package:productv1/models/work_signal.dart';
 
 /// Drop-in stand-in for the real ClaudeService (issue #15).
 ///
@@ -9,7 +11,11 @@ import 'package:productv1/models/risk_level.dart';
 class MockClaudeService {
   const MockClaudeService._();
 
-  static Future<String> getRecommendation(RiskLevel risk) async {
+  static Future<String> getRecommendation(
+    RiskLevel risk, [
+    WorkSignal? work,
+    HealthSignal? health,
+  ]) async {
     switch (risk) {
       case RiskLevel.low:
         return 'Your signals look balanced this week — sleep is solid and the incident '

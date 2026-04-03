@@ -17,6 +17,8 @@ import '../models/work_signal.dart';
 /// signal summary, sent over HTTPS to the Claude API. No device identifiers,
 /// no account info, no raw HealthKit records.
 class ClaudeService {
+  const ClaudeService._();
+
   static const _apiUrl = 'https://api.anthropic.com/v1/messages';
 
   // claude-haiku-4-5-20251001: fast, cheap, more than capable for short text
@@ -44,7 +46,7 @@ Rules:
 
   /// Returns a 2–3 sentence recommendation string.
   /// Throws if the API call fails — caller should fall back to MockClaudeService.
-  Future<String> getRecommendation(
+  static Future<String> getRecommendation(
     RiskLevel riskLevel,
     WorkSignal work,
     HealthSignal health,
@@ -84,7 +86,7 @@ Rules:
 
   // Issue #23: include raw signal values so Claude's output is specific.
   // Issue #24: explicit crisis handoff instruction when CRITICAL.
-  String _buildPrompt(
+  static String _buildPrompt(
     RiskLevel riskLevel,
     WorkSignal work,
     HealthSignal health,

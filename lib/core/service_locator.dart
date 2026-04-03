@@ -3,6 +3,7 @@ import 'package:productv1/models/risk_level.dart';
 import 'package:productv1/models/work_signal.dart';
 import 'package:productv1/services/health_service.dart';
 import 'package:productv1/services/rootly_service.dart';
+import 'package:productv1/services/claude_service.dart';
 import 'package:productv1/services/mock/mock_claude_service.dart';
 import 'package:productv1/services/mock/mock_health_service.dart';
 import 'package:productv1/services/mock/mock_rootly_service.dart';
@@ -26,13 +27,12 @@ class ServiceLocator {
   static Future<WorkSignal> fetchWork() =>
       useMocks ? MockRootlyService.fetch() : RootlyService.fetch();
 
-  static Future<String> getRecommendation(RiskLevel risk) => useMocks
-      ? MockClaudeService.getRecommendation(risk)
-      : _liveClaudeNotImplemented();
-
-  // --- Stub for live ClaudeService (replaced in issue #15) ---
-
-  static Future<String> _liveClaudeNotImplemented() =>
-      Future<String>.error(UnimplementedError(
-          'ClaudeService not yet implemented — build with --dart-define=USE_MOCKS=true'));
+  static Future<String> getRecommendation(
+    RiskLevel risk,
+    WorkSignal work,
+    HealthSignal health,
+  ) =>
+      useMocks
+          ? MockClaudeService.getRecommendation(risk, work, health)
+          : ClaudeService.getRecommendation(risk, work, health);
 }
