@@ -6,7 +6,7 @@ Run `flutter create` to produce the initial Flutter iOS project scaffold in the 
 ## Command
 
 ```bash
-flutter create . --org com.oncallhelper --project-name oncallhelper --platforms ios
+flutter create . --org com.productv1 --project-name productv1 --platforms ios
 ```
 
 ## What gets generated
@@ -26,7 +26,7 @@ flutter create . --org com.oncallhelper --project-name oncallhelper --platforms 
 
 ### `pubspec.yaml` — the project manifest
 Think of this as `package.json` for Flutter. It defines:
-- **name:** `oncallhelper` — your app's identifier
+- **name:** `productv1` — your app's identifier
 - **version:** `1.0.0+1` — the `1.0.0` is user-visible, the `+1` is the iOS build number (CFBundleVersion)
 - **dependencies:** packages your app needs at runtime. Right now just Flutter itself + `cupertino_icons` (iOS-style icons). Issue #2 adds `health`, `flutter_local_notifications`, `http`, `flutter_dotenv` here.
 - **dev_dependencies:** tools only used during development (`flutter_lints` for code style checks, `flutter_test` for tests)
