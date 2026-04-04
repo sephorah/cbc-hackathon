@@ -7,6 +7,7 @@ import '../models/work_signal.dart';
 import '../services/mock/mock_claude_service.dart';
 import '../services/mock/mock_health_service.dart';
 import '../services/mock/mock_rootly_service.dart';
+import '../services/rootly_service.dart';
 import '../services/notification_service.dart';
 
 enum _State { idle, loading, done, error }
@@ -42,41 +43,71 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _state = _State.loading;
       _errorMessage = null;
-      _usedMockFallback = false;
+      // Health data is always mocked (HealthKit requires a paid Apple
+      // Developer account). The banner is shown regardless of whether
+      // Rootly and Claude succeed with live data.
+      _usedMockFallback = true;
     });
 
     try {
-      // --- Step 1: fetch signals (issue #28: mock fallback if live fails) ---
+      debugPrint('[ProductV1] Starting analysis...');
+
+      // --- Step 1: fetch signals ---
+      // Health: always mock (HealthKit requires paid Apple Developer account).
+      debugPrint('[ProductV1] Using mock sleep data (HealthKit unavailable on free team)...');
+      final health = await MockHealthService.fetch();
+      debugPrint('[ProductV1] Health signal: sleep=${health.totalSleepDuration.inMinutes}min fragmentation=${health.fragmentationCount}');
+
+      // Work: live Rootly for incident counts + on-call status.
+      // afterHoursCount uses mock (live after-hours detection is unreliable).
       WorkSignal work;
-      HealthSignal health;
       try {
-        work = await ServiceLocator.fetchWork();
-        health = await ServiceLocator.fetchHealth();
-      } catch (_) {
+        debugPrint('[ProductV1] Fetching Rootly work signal (live mode)...');
+        final liveWork = await RootlyService.fetch();
+        final mockWork = await MockRootlyService.fetch();
+        work = WorkSignal(
+          windowStart: liveWork.windowStart,
+          windowEnd: liveWork.windowEnd,
+          totalIncidents: liveWork.totalIncidents,
+          criticalCount: liveWork.criticalCount,
+          highCount: liveWork.highCount,
+          afterHoursCount: mockWork.afterHoursCount,
+          isOnCall: liveWork.isOnCall,
+        );
+        debugPrint('[ProductV1] Work signal: total=${work.totalIncidents} critical=${work.criticalCount} high=${work.highCount} afterHours=${work.afterHoursCount}(mock) onCall=${work.isOnCall}');
+      } catch (e) {
+        debugPrint('[ProductV1] Rootly live fetch failed: $e — falling back to mock work data');
         work = await MockRootlyService.fetch();
-        health = await MockHealthService.fetch();
+        debugPrint('[ProductV1] Mock work signal: total=${work.totalIncidents} onCall=${work.isOnCall}');
         _usedMockFallback = true;
       }
 
       // --- Step 2: deterministic correlation (never let Claude decide risk) ---
+      debugPrint('[ProductV1] Running StressCorrelator...');
       final risk = StressCorrelator.compute(work, health);
+      debugPrint('[ProductV1] Risk level computed: ${risk.name.toUpperCase()}');
 
       // --- Step 3: get recommendation text (mock fallback if Claude fails) ---
       String recommendation;
       try {
+        debugPrint('[ProductV1] Calling Claude API for recommendation...');
         recommendation =
             await ServiceLocator.getRecommendation(risk, work, health);
-      } catch (_) {
+        debugPrint('[ProductV1] Claude response received (${recommendation.length} chars)');
+      } catch (e) {
+        debugPrint('[ProductV1] Claude API failed: $e — using mock recommendation');
         recommendation = await MockClaudeService.getRecommendation(risk, work, health);
         _usedMockFallback = true;
       }
 
       // --- Step 4: send notification (mirrors to Apple Watch automatically) ---
+      debugPrint('[ProductV1] Sending notification (isCritical=${risk == RiskLevel.critical})...');
       await NotificationService.send(
         title: 'ProductV1 — ${risk.label} Risk',
         body: recommendation,
         isCritical: risk == RiskLevel.critical,
       );
+      debugPrint('[ProductV1] Notification sent.');
 
       if (!mounted) return;
       setState(() {
