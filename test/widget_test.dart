@@ -1,3 +1,3 @@
-// Default counter-app scaffold removed — ProductV1 replaced it.
+// Default counter-app scaffold removed — OnCallBalance replaced it.
 // End-to-end tests tracked in issues_backlog.md (#32, #33).
 void main() {}

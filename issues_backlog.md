@@ -1,4 +1,4 @@
-# ProductV1 — Issues Backlog
+# OnCallBalance — Issues Backlog
 
 ## Legend
 - **Priority:** P0 (blocker) · P1 (MVP required) · P2 (nice to have before demo) · P3 (V2)
@@ -104,6 +104,7 @@
 | 35 | Prepare answer for "show me the correlation formula" (printout or slide) | P1 | S | |
 | 36 | Test Apple Watch notification mirror on physical device | P0 | M | |
 | 43 | Demo live trigger: create and resolve a real incident via Rootly trial account to drive the full pipeline end-to-end | P1 | S | |
+| 45 | Incident-resolve trigger: on app open, check Rootly for incidents resolved in the last 2h assigned to the user — if found, auto-run the full pipeline (fetch → correlate → Claude → Watch notification) without any button tap | P0 | M | |
 
 ---
 

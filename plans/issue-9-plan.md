@@ -23,7 +23,7 @@ Rootly's open-source on-call-health repo uses a validated, research-backed burno
 | Maya Fernandez | 28 | 7.1% | 66.75 | High |
 | Jamal Williams | 11 | 0% | 54.24 | Moderate |
 
-Marcus and Maya have nearly identical incident counts — but Marcus scores 94 vs Maya's 67 purely because of after-hours activity (25.9% vs 7.1%). ProductV1y patterns, not incident count, drive the score. This directly justifies 65% weight on the sleep/recovery side.
+Marcus and Maya have nearly identical incident counts — but Marcus scores 94 vs Maya's 67 purely because of after-hours activity (25.9% vs 7.1%). OnCallBalance patterns, not incident count, drive the score. This directly justifies 65% weight on the sleep/recovery side.
 
 **Where we differ:** Rootly proxies sleep from after-hours incident disruption — they have no real sleep data. We plug in actual HealthKit `totalSleepDuration` and `fragmentationCount`. Same model, better data.
 
@@ -215,7 +215,7 @@ combined <  3.0 → low
 
 **Reading the examples against Rootly's philosophy:**
 
-- **Last row (3 critical, slept 8h → moderate)** is the most important. 3 SEV0 incidents with full recovery = only moderate risk. ProductV1y is what prevents burnout, not the absence of incidents. This is Rootly's core finding — use this row if a judge asks "show me the formula."
+- **Last row (3 critical, slept 8h → moderate)** is the most important. 3 SEV0 incidents with full recovery = only moderate risk. OnCallBalance is what prevents burnout, not the absence of incidents. This is Rootly's core finding — use this row if a judge asks "show me the formula."
 
 - **Row 2 (no incidents, slept 4h → moderate, 4.9)** shows that sleep deprivation alone drives risk. Even a quiet on-call week accumulates burnout if you're not recovering. This is the 65% sleep weight working as intended.
 

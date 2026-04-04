@@ -87,7 +87,7 @@ References `const MyApp()` which no longer exists (renamed to `OnCallHelperApp`)
 
 Replace the entire file with:
 ```dart
-// Default counter-app scaffold removed — ProductV1 replaced it.
+// Default counter-app scaffold removed — OnCallBalance replaced it.
 // End-to-end tests tracked in issues_backlog.md (#32, #33).
 void main() {}
 ```
