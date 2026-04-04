@@ -12,10 +12,10 @@ class MockClaudeService {
   const MockClaudeService._();
 
   static Future<String> getRecommendation(
-    RiskLevel risk, [
-    WorkSignal? work,
-    HealthSignal? health,
-  ]) async {
+    RiskLevel risk,
+    WorkSignal work,
+    HealthSignal health,
+  ) async {
     switch (risk) {
       case RiskLevel.low:
         return 'Your signals look balanced this week — sleep is solid and the incident '
