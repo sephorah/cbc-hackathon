@@ -50,19 +50,19 @@ class _HomeScreenState extends State<HomeScreen> {
     });
 
     try {
-      debugPrint('[ProductV1] Starting analysis...');
+      debugPrint('[OnCallBalance] Starting analysis...');
 
       // --- Step 1: fetch signals ---
       // Health: always mock (HealthKit requires paid Apple Developer account).
-      debugPrint('[ProductV1] Using mock sleep data (HealthKit unavailable on free team)...');
+      debugPrint('[OnCallBalance] Using mock sleep data (HealthKit unavailable on free team)...');
       final health = await MockHealthService.fetch();
-      debugPrint('[ProductV1] Health signal: sleep=${health.totalSleepDuration.inMinutes}min fragmentation=${health.fragmentationCount}');
+      debugPrint('[OnCallBalance] Health signal: sleep=${health.totalSleepDuration.inMinutes}min fragmentation=${health.fragmentationCount}');
 
       // Work: live Rootly for incident counts + on-call status.
       // afterHoursCount uses mock (live after-hours detection is unreliable).
       WorkSignal work;
       try {
-        debugPrint('[ProductV1] Fetching Rootly work signal (live mode)...');
+        debugPrint('[OnCallBalance] Fetching Rootly work signal (live mode)...');
         final liveWork = await RootlyService.fetch();
         final mockWork = await MockRootlyService.fetch();
         work = WorkSignal(
@@ -74,40 +74,40 @@ class _HomeScreenState extends State<HomeScreen> {
           afterHoursCount: mockWork.afterHoursCount,
           isOnCall: liveWork.isOnCall,
         );
-        debugPrint('[ProductV1] Work signal: total=${work.totalIncidents} critical=${work.criticalCount} high=${work.highCount} afterHours=${work.afterHoursCount}(mock) onCall=${work.isOnCall}');
+        debugPrint('[OnCallBalance] Work signal: total=${work.totalIncidents} critical=${work.criticalCount} high=${work.highCount} afterHours=${work.afterHoursCount}(mock) onCall=${work.isOnCall}');
       } catch (e) {
-        debugPrint('[ProductV1] Rootly live fetch failed: $e — falling back to mock work data');
+        debugPrint('[OnCallBalance] Rootly live fetch failed: $e — falling back to mock work data');
         work = await MockRootlyService.fetch();
-        debugPrint('[ProductV1] Mock work signal: total=${work.totalIncidents} onCall=${work.isOnCall}');
+        debugPrint('[OnCallBalance] Mock work signal: total=${work.totalIncidents} onCall=${work.isOnCall}');
         _usedMockFallback = true;
       }
 
       // --- Step 2: deterministic correlation (never let Claude decide risk) ---
-      debugPrint('[ProductV1] Running StressCorrelator...');
+      debugPrint('[OnCallBalance] Running StressCorrelator...');
       final risk = StressCorrelator.compute(work, health);
-      debugPrint('[ProductV1] Risk level computed: ${risk.name.toUpperCase()}');
+      debugPrint('[OnCallBalance] Risk level computed: ${risk.name.toUpperCase()}');
 
       // --- Step 3: get recommendation text (mock fallback if Claude fails) ---
       String recommendation;
       try {
-        debugPrint('[ProductV1] Calling Claude API for recommendation...');
+        debugPrint('[OnCallBalance] Calling Claude API for recommendation...');
         recommendation =
             await ServiceLocator.getRecommendation(risk, work, health);
-        debugPrint('[ProductV1] Claude response received (${recommendation.length} chars)');
+        debugPrint('[OnCallBalance] Claude response received (${recommendation.length} chars)');
       } catch (e) {
-        debugPrint('[ProductV1] Claude API failed: $e — using mock recommendation');
+        debugPrint('[OnCallBalance] Claude API failed: $e — using mock recommendation');
         recommendation = await MockClaudeService.getRecommendation(risk, work, health);
         _usedMockFallback = true;
       }
 
       // --- Step 4: send notification (mirrors to Apple Watch automatically) ---
-      debugPrint('[ProductV1] Sending notification (isCritical=${risk == RiskLevel.critical})...');
+      debugPrint('[OnCallBalance] Sending notification (isCritical=${risk == RiskLevel.critical})...');
       await NotificationService.send(
-        title: 'ProductV1 — ${risk.label} Risk',
+        title: 'OnCallBalance — ${risk.label} Risk',
         body: recommendation,
         isCritical: risk == RiskLevel.critical,
       );
-      debugPrint('[ProductV1] Notification sent.');
+      debugPrint('[OnCallBalance] Notification sent.');
 
       if (!mounted) return;
       setState(() {
@@ -155,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const Text(
-          'ProductV1',
+          'OnCallBalance',
           style: TextStyle(
             color: Colors.white,
             fontSize: 24,

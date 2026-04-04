@@ -12,16 +12,16 @@ Future<void> main() async {
   // Request iOS notification permissions + initialise flutter_local_notifications
   await NotificationService.initialize();
 
-  runApp(const ProductV1App());
+  runApp(const OnCallBalanceApp());
 }
 
-class ProductV1App extends StatelessWidget {
-  const ProductV1App({super.key});
+class OnCallBalanceApp extends StatelessWidget {
+  const OnCallBalanceApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'ProductV1',
+      title: 'OnCallBalance',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(

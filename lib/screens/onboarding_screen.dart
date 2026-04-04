@@ -43,7 +43,7 @@ class OnboardingScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'ProductV1',
+          'OnCallBalance',
           style: TextStyle(
             color: Colors.white,
             fontSize: 34,
