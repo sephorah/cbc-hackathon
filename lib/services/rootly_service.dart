@@ -80,7 +80,7 @@ class RootlyService {
     );
   }
 
-  /// Fetches incidents for the current user over the last [days] days.
+  /// Fetches incidents involving the current user over the last [days] days.
   ///
   /// Returns an [IncidentCounts] with total, critical, high, and after-hours counts.
   ///
@@ -106,9 +106,12 @@ class RootlyService {
 
   /// Parses a Rootly JSON:API [data] array into [IncidentCounts].
   ///
-  /// Each item must have an `attributes` map with optional `severity`,
-  /// `started_at`, and `created_at` keys. Items without a parseable
-  /// timestamp are counted in total/severity but not in afterHours.
+  /// Counts all incidents in [data] — caller is responsible for server-side
+  /// filtering (e.g. `filter[user_id]`) before passing data here.
+  ///
+  /// Severity path: `attributes.severity.data.attributes.severity`
+  /// → `"critical"|"high"|"medium"|"low"`.
+  /// A plain-string severity is also accepted for test fixtures.
   @visibleForTesting
   static IncidentCounts parseIncidents(List<dynamic> data) {
     int total = 0;
@@ -119,9 +122,24 @@ class RootlyService {
     for (final item in data) {
       final itemMap = item as Map<String, dynamic>?;
       if (itemMap == null) continue;
+
       final attrs = itemMap['attributes'] as Map<String, dynamic>?;
       if (attrs == null) continue;
-      final severity = attrs['severity'] as String? ?? '';
+
+      // Severity is a JSON:API nested object in the real API:
+      //   attributes.severity.data.attributes.severity → "critical"|"high"|...
+      // A plain string is also handled for test fixtures.
+      final severityRaw = attrs['severity'];
+      final String severity;
+      if (severityRaw is String) {
+        severity = severityRaw;
+      } else if (severityRaw is Map<String, dynamic>) {
+        final sevData = severityRaw['data'] as Map<String, dynamic>?;
+        final sevAttrs = sevData?['attributes'] as Map<String, dynamic>?;
+        severity = (sevAttrs?['severity'] as String?) ?? '';
+      } else {
+        severity = '';
+      }
 
       total++;
       if (severity == 'critical') critical++;
@@ -187,7 +205,7 @@ class RootlyService {
     return id;
   }
 
-  /// Fetches incidents for [userId] over the last [days] days.
+  /// Fetches incidents involving [userId] over the last [days] days.
   static Future<IncidentCounts> _fetchIncidentsForUser(
     String userId, {
     int days = 30,

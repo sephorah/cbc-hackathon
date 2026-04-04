@@ -26,6 +26,10 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSHealthShareUsageDescription</key>
+	<string>ProductV1 reads your sleep duration from Apple Health to detect sleep deficits that may compound on-call stress. This data never leaves your device.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>ProductV1 does not write health data. This permission is required by HealthKit but will not be used.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -66,9 +70,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSHealthShareUsageDescription</key>
-	<string>ProductV1 reads your sleep duration from Apple Health to detect sleep deficits that may compound on-call stress. This data never leaves your device.</string>
-	<key>NSHealthUpdateUsageDescription</key>
-	<string>ProductV1 does not write health data. This permission is required by HealthKit but will not be used.</string>
 </dict>
 </plist>

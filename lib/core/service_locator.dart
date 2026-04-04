@@ -12,7 +12,7 @@ import 'package:productv1/services/mock/mock_rootly_service.dart';
 ///
 /// Defaults to true (mock mode) — safe for Linux dev, CI, and simulator.
 /// To build with live services: flutter run --dart-define=USE_MOCKS=false
-const bool useMocks = bool.fromEnvironment('USE_MOCKS', defaultValue: true);
+const bool useMocks = bool.fromEnvironment('USE_MOCKS', defaultValue: false);
 
 /// Single source of service instances for the app.
 ///
