@@ -1,12 +1,12 @@
-import 'package:productv1/models/health_signal.dart';
-import 'package:productv1/models/risk_level.dart';
-import 'package:productv1/models/work_signal.dart';
-import 'package:productv1/services/health_service.dart';
-import 'package:productv1/services/rootly_service.dart';
-import 'package:productv1/services/claude_service.dart';
-import 'package:productv1/services/mock/mock_claude_service.dart';
-import 'package:productv1/services/mock/mock_health_service.dart';
-import 'package:productv1/services/mock/mock_rootly_service.dart';
+import 'package:oncallbalance/models/health_signal.dart';
+import 'package:oncallbalance/models/risk_level.dart';
+import 'package:oncallbalance/models/work_signal.dart';
+import 'package:oncallbalance/services/health_service.dart';
+import 'package:oncallbalance/services/rootly_service.dart';
+import 'package:oncallbalance/services/claude_service.dart';
+import 'package:oncallbalance/services/mock/mock_claude_service.dart';
+import 'package:oncallbalance/services/mock/mock_health_service.dart';
+import 'package:oncallbalance/services/mock/mock_rootly_service.dart';
 
 /// Controls whether the app uses hardcoded mock data or live services.
 ///

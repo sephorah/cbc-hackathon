@@ -1,7 +1,7 @@
-import 'package:productv1/core/constants/crisis_resources.dart';
-import 'package:productv1/models/health_signal.dart';
-import 'package:productv1/models/risk_level.dart';
-import 'package:productv1/models/work_signal.dart';
+import 'package:oncallbalance/core/constants/crisis_resources.dart';
+import 'package:oncallbalance/models/health_signal.dart';
+import 'package:oncallbalance/models/risk_level.dart';
+import 'package:oncallbalance/models/work_signal.dart';
 
 /// Drop-in stand-in for the real ClaudeService (issue #15).
 ///

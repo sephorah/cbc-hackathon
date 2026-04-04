@@ -142,7 +142,7 @@ In `lib/core/service_locator.dart`:
 
 Add import after the existing rootly_service import:
 ```dart
-import 'package:productv1/services/claude_service.dart';
+import 'package:oncallbalance/services/claude_service.dart';
 ```
 
 Replace the `getRecommendation` method and the `_liveClaudeNotImplemented` stub with:
@@ -248,8 +248,8 @@ git commit -m "feat: make ClaudeService static, wire ServiceLocator, fix HomeScr
 
 Add these imports at the top of the file:
 ```dart
-import 'package:productv1/models/health_signal.dart';
-import 'package:productv1/models/work_signal.dart';
+import 'package:oncallbalance/models/health_signal.dart';
+import 'package:oncallbalance/models/work_signal.dart';
 ```
 
 Change the `getRecommendation` signature from:
@@ -285,7 +285,7 @@ git commit -m "fix: align MockClaudeService.getRecommendation signature with liv
 
 - [ ] **Step 5.1: Remove line 9**
 
-Line 7 and line 9 both import `package:productv1/models/work_signal.dart`. Delete line 9 (the second one).
+Line 7 and line 9 both import `package:oncallbalance/models/work_signal.dart`. Delete line 9 (the second one).
 
 - [ ] **Step 5.2: Commit**
 

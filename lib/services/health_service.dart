@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:health/health.dart';
-import 'package:productv1/models/health_signal.dart';
+import 'package:oncallbalance/models/health_signal.dart';
 
 /// Live implementation that fetches sleep data from HealthKit.
 ///

@@ -37,7 +37,7 @@ To make after-hours tests timezone-safe, timestamps are generated from the local
 ```dart
 // test/services/rootly_service_test.dart
 import 'package:flutter_test/flutter_test.dart';
-import 'package:productv1/services/rootly_service.dart';
+import 'package:oncallbalance/services/rootly_service.dart';
 
 void main() {
   // Generate timezone-safe timestamps at test runtime.

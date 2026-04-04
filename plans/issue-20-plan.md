@@ -61,7 +61,7 @@ lib/services/mock/mock_claude_service.dart
 ```
 
 ```dart
-import 'package:productv1/models/risk_level.dart';
+import 'package:oncallbalance/models/risk_level.dart';
 
 class MockClaudeService {
   const MockClaudeService._();

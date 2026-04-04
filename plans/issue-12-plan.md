@@ -39,7 +39,7 @@ No per-night grouping or averaging — a straight sum over the window. `ServiceL
 // test/services/health_service_test.dart
 import 'package:flutter_test/flutter_test.dart';
 import 'package:health/health.dart';
-import 'package:productv1/services/health_service.dart';
+import 'package:oncallbalance/services/health_service.dart';
 
 HealthDataPoint _makePoint(HealthDataType type, DateTime from, DateTime to) =>
     HealthDataPoint(
@@ -151,7 +151,7 @@ Expected: compilation error — `HealthService` and `HealthDataUnavailableExcept
 // lib/services/health_service.dart
 import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:health/health.dart';
-import 'package:productv1/models/health_signal.dart';
+import 'package:oncallbalance/models/health_signal.dart';
 
 /// Live implementation that fetches sleep data from HealthKit.
 ///
@@ -289,7 +289,7 @@ git commit -m "feat: implement HealthService with sleep aggregation and tests (i
 
 Add the import after the existing imports:
 ```dart
-import 'package:productv1/services/health_service.dart';
+import 'package:oncallbalance/services/health_service.dart';
 ```
 
 Replace the `fetchHealth()` getter:

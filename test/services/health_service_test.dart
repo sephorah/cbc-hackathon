@@ -1,7 +1,7 @@
 // test/services/health_service_test.dart
 import 'package:flutter_test/flutter_test.dart';
 import 'package:health/health.dart';
-import 'package:productv1/services/health_service.dart';
+import 'package:oncallbalance/services/health_service.dart';
 
 HealthDataPoint _makePoint(HealthDataType type, DateTime from, DateTime to) =>
     HealthDataPoint(

@@ -127,7 +127,7 @@ import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:productv1/models/work_signal.dart';
+import 'package:oncallbalance/models/work_signal.dart';
 
 /// Counts of incidents over a time window, returned by [RootlyService.fetchIncidents].
 class IncidentCounts {
@@ -426,14 +426,14 @@ git commit -m "feat: add RootlyService.fetchOnCallSchedule() and fetch() → Wor
 Change the import and the `fetchWork` getter. The full file after the edit:
 
 ```dart
-import 'package:productv1/models/health_signal.dart';
-import 'package:productv1/models/risk_level.dart';
-import 'package:productv1/models/work_signal.dart';
-import 'package:productv1/services/health_service.dart';
-import 'package:productv1/services/rootly_service.dart';
-import 'package:productv1/services/mock/mock_claude_service.dart';
-import 'package:productv1/services/mock/mock_health_service.dart';
-import 'package:productv1/services/mock/mock_rootly_service.dart';
+import 'package:oncallbalance/models/health_signal.dart';
+import 'package:oncallbalance/models/risk_level.dart';
+import 'package:oncallbalance/models/work_signal.dart';
+import 'package:oncallbalance/services/health_service.dart';
+import 'package:oncallbalance/services/rootly_service.dart';
+import 'package:oncallbalance/services/mock/mock_claude_service.dart';
+import 'package:oncallbalance/services/mock/mock_health_service.dart';
+import 'package:oncallbalance/services/mock/mock_rootly_service.dart';
 
 /// Controls whether the app uses hardcoded mock data or live services.
 ///
